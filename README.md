@@ -40,3 +40,4 @@
 - Configure Razorpay with real API keys and domain whitelisting.
 - Add production analytics/SEO meta tags as needed.
 - Hook Razorpay success handler to real order fulfillment logic.
+- Implement responsive layout tweaks so hero, checkout drawer, and features section stack gracefully on tablets/phones (replace fixed widths, add Tailwind breakpoints, offer tap alternatives to hover effects).
