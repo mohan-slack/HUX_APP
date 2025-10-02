@@ -6,7 +6,7 @@ RUN apk upgrade --no-cache
 
 # Copy static assets into the web root with proper ownership
 COPY --chown=nginx:nginx huxorder.html index.html /usr/share/nginx/html/
-COPY --chown=nginx:nginx Assets/ /usr/share/nginx/html/assets/
+COPY --chown=nginx:nginx assets/ /usr/share/nginx/html/assets/
 
 # Expose HTTP port for local runs or cloud deployment
 EXPOSE 80

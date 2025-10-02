@@ -3,7 +3,7 @@
 ## Structure
 - `huxorder.html` – landing + order flow with hero, checkout drawer, features gallery.
 - `index.html` – optional alternate entry point (current focus is `huxorder.html`).
-- `Assets/` – image and media files consumed by the pages (copied into lowercase `assets/` inside the container).
+- `assets/` – image and media files consumed by the pages.
 
 ## Tech Stack
 - HTML + Tailwind CSS (via CDN) for layout and styling.
@@ -12,7 +12,7 @@
 - Razorpay checkout library (loaded but awaiting production keys).
 
 ## Usage
-1. Ensure the assets folder remains at `Assets/` so image paths stay valid.
+1. Ensure the static assets live under `assets/` (all lowercase) so GitHub Pages and Linux hosts can resolve the paths.
 2. Open `huxorder.html` directly in a browser, or serve the directory with `python3 -m http.server` for a local web server.
 3. Replace `YOUR_RAZORPAY_KEY` in `huxorder.html` before enabling live payments.
 
