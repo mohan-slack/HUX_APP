@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HUX Smart Ring – Checkout</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fafafa;
+      color: #111;
+    }
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .input:focus {
+      border-color: #007aff;
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.15);
+    }
+    .btn-primary {
+      background: linear-gradient(180deg, #007aff, #0051c7);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 9999px;
+      padding: 14px 24px;
+      text-align: center;
+      transition: 0.3s ease;
+      width: 100%;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(180deg, #005ce6, #0044a3);
+    }
+    .label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+<header class="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl z-50">
+  <nav class="backdrop-blur-md bg-white/70 border border-white/20 rounded-2xl shadow-md flex justify-between items-center px-6 py-3">
+    <!-- Left: Logo -->
+    <div class="flex items-center gap-3">
+      <img src="assets/images/logo.png" alt="HUX Logo" class="h-10">
+      <h2 class="text-lg font-semibold text-gray-800 tracking-tight">Checkout</h2>
+    </div>
+
+    <!-- Right: Back Button -->
+    <a href="index.html" class="relative inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-gray-900 rounded-full overflow-hidden border border-transparent transition-all duration-500 hover:text-black group">
+      <span class="absolute inset-0 rounded-full border border-black opacity-0 group-hover:opacity-100 animate-borderFlow"></span>
+      <span class="relative z-10">Back to Store</span>
+    </a>
+  </nav>
+</header>
+
+
+  <!-- Main Section -->
+  <main class="max-w-6xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 px-6 pb-16">
+    
+    <!-- LEFT: Checkout Form -->
+    <div class="md:col-span-2 space-y-6">
+      <!-- Apply Coupon -->
+      <div class="card p-6">
+        <h3 class="font-semibold text-gray-800 mb-4">Apply Coupon</h3>
+        <div class="flex gap-3">
+          <input type="text" id="coupon" placeholder="Enter coupon code" class="input flex-1">
+          <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 text-sm font-semibold">Apply</button>
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="card p-6">
+        <h3 class="font-semibold text-gray-800 mb-4">Recipient’s Contact</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="label">Email*</label>
+            <input type="email" id="email" placeholder="Enter Email" class="input mt-1">
+          </div>
+          <div>
+            <label class="label">Mobile number*</label>
+            <div class="flex items-center">
+              <span class="px-3 text-gray-500 bg-gray-50 border border-r-0 border-gray-300 rounded-l-lg">+91</span>
+              <input type="tel" id="mobile" placeholder="Enter mobile number" class="input rounded-l-none">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivery Address -->
+      <div class="card p-6">
+        <h3 class="font-semibold text-gray-800 mb-4">Delivery Address</h3>
+        <div class="grid md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="label">Full name*</label>
+            <input type="text" id="fullname" placeholder="Enter your name" class="input mt-1">
+          </div>
+          <div>
+            <label class="label">House Number*</label>
+            <input type="text" id="house" placeholder="Enter house number" class="input mt-1">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="label">Country/Region*</label>
+            <select id="country" class="input mt-1">
+              <option>India</option>
+            </select>
+          </div>
+          <div>
+            <label class="label">State*</label>
+            <input type="text" id="state" placeholder="Enter state" class="input mt-1">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="label">City*</label>
+            <input type="text" id="city" placeholder="Enter city" class="input mt-1">
+          </div>
+          <div>
+            <label class="label">Pin code*</label>
+            <input type="text" id="pin" placeholder="Enter PIN code" class="input mt-1">
+          </div>
+        </div>
+        <div>
+          <label class="label">Building/Street/Area*</label>
+          <input type="text" id="address" placeholder="Enter address" class="input mt-1">
+        </div>
+        <div class="mt-4">
+          <label class="label">Landmark (optional)</label>
+          <input type="text" id="landmark" placeholder="Enter landmark" class="input mt-1">
+        </div>
+      </div>
+    </div>
+
+   <!-- RIGHT: Order Summary -->
+<aside class="bg-[#111418] text-gray-100 rounded-2xl p-6 shadow-xl h-fit sticky top-20">
+  <h3 class="text-sm font-semibold text-gray-300 mb-4 uppercase tracking-wide">Order Details</h3>
+
+  <div id="orderSummary" class="space-y-4 text-sm">
+    <!-- Dynamically Filled -->
+    <div class="text-gray-400">Loading order...</div>
+  </div>
+
+  <div class="border-t border-gray-700 my-5"></div>
+
+  <div class="space-y-2 text-sm text-gray-300">
+    <div class="flex justify-between">
+      <span>Sub-total</span>
+      <span id="subtotal" class="font-medium text-gray-200">₹0</span>
+    </div>
+
+    <p class="text-xs text-gray-500 mt-2 uppercase tracking-wide">Shipping Charges:</p>
+
+    <div class="flex justify-between text-xs text-gray-400">
+      <span>Delivery Charges</span>
+      <span><s class="opacity-50">₹600</s> <span class="text-green-400 ml-1">Free</span></span>
+    </div>
+    <div class="flex justify-between text-xs text-gray-400">
+      <span>Physical Sizing Kit</span>
+      <span><s class="opacity-50">₹400</s> <span class="text-green-400 ml-1">Free</span></span>
+    </div>
+  </div>
+
+  <div class="border-t border-gray-700 my-5"></div>
+
+  <div class="flex justify-between items-center">
+    <span class="text-gray-300 font-semibold">Total</span>
+    <span id="orderTotal" class="text-lg font-bold text-white">₹0</span>
+  </div>
+
+  <button id="payNow" class="mt-6 w-full bg-gradient-to-b from-white to-gray-200 text-gray-900 font-semibold py-3 rounded-full shadow-sm hover:from-gray-100 hover:to-gray-300 transition">
+    Pay now
+  </button>
+
+  <p class="text-center text-xs text-gray-500 mt-2">No cost EMI available</p>
+
+ <div class="flex justify-center gap-4 mt-4 opacity-90">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/UPI-Logo-vector.svg" alt="UPI" class="h-5" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" class="h-5" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard" class="h-5" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Rupay.svg" alt="RuPay" class="h-5" />
+</div>
+
+
+
+  <div class="flex justify-center items-center gap-2 mt-4 text-green-400 text-xs">
+    <i class='bx bx-shield-check text-base'></i>
+    <span>Guaranteed and safe checkout</span>
+  </div>
+</aside>
+
+  </main>
+
+  <footer class="text-center text-sm text-gray-400 py-10">
+    © <span id="year"></span> HUX Smart Ring — Secure Checkout
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Load order details from localStorage
+    const summaryEl = document.getElementById('orderSummary');
+    const totalEl = document.getElementById('orderTotal');
+    const cart = JSON.parse(localStorage.getItem('hux_cart')) || {};
+
+    if (cart && cart.name) {
+      summaryEl.innerHTML = `
+        <div class="flex items-center gap-3">
+          <img src="${cart.image}" class="w-16 h-16 rounded-lg border object-cover" />
+          <div>
+            <div class="font-semibold">${cart.name}</div>
+            <div class="text-gray-500 text-xs">Color: ${cart.color || '--'} | Size: ${cart.size || '--'}</div>
+            <div class="text-gray-500 text-xs">Qty: ${cart.qty || 1}</div>
+          </div>
+        </div>
+        <div class="flex justify-between text-sm pt-3 border-t">
+          <span>Sub-total</span>
+          <span>₹${cart.total.toLocaleString()}</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span>Shipping Charges</span>
+          <span class="line-through text-gray-400">₹600</span><span class="text-green-600">Free</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span>Physical Sizing Kit</span>
+          <span class="text-green-600">Free</span>
+        </div>
+      `;
+      totalEl.textContent = "₹" + cart.total.toLocaleString();
+    } else {
+      summaryEl.innerHTML = `<p class="text-gray-500">No items found. <a href="product.html" class="text-blue-500 underline">Go back</a>.</p>`;
+    }
+
+    // Razorpay Payment
+    document.getElementById('payNow').addEventListener('click', function() {
+      if (!cart.total) {
+        alert("No order data found.");
+        return;
+      }
+      var options = {
+        "key": "YOUR_RAZORPAY_KEY",
+        "amount": cart.total * 100,
+        "currency": "INR",
+        "name": "HUX Smart Ring",
+        "description": "Order Payment",
+        "image": "assets/images/logo.png",
+        "handler": function (response){
+          alert("✅ Payment successful! ID: " + response.razorpay_payment_id);
+          localStorage.removeItem('hux_cart');
+          window.location.href = "thankyou.html";
+        },
+        "prefill": {
+          "email": document.getElementById('email').value,
+          "contact": document.getElementById('mobile').value
+        },
+        "theme": {
+          "color": "#007aff"
+        }
+      };
+      var rzp = new Razorpay(options);
+      rzp.open();
+    });
+  </script>
+
+<style>/* Glassy rounded nav like product page */
+nav {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
+}
+
+/* Button outline animation */
+@keyframes borderFlow {
+  0% { clip-path: inset(0 100% 0 0); }
+  50% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 0 100%); }
+}
+
+.animate-borderFlow {
+  animation: borderFlow 1.8s linear infinite;
+}
+
+/* Add breathing room below rounded nav */
+header {
+  margin-bottom: 32px; /* creates visible gap between nav and body */
+}
+
+/* Subtle floating effect for nav */
+nav {
+  margin: 0 auto;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Optional: make sure main content starts lower when fixed nav overlaps */
+main {
+  margin-top: 100px; /* ensures content doesn’t touch fixed navbar */
+}
+
+
+</style>
+
+
+</body>
+</html>
