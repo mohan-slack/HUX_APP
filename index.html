@@ -880,7 +880,7 @@ body {
     <main class="pt-28">
     <!-- HERO WRAPPER -->
   <section class="hero-wrap">
-    <div class="as-slider" id="heroSlider" data-settings='{"background_slideshow_gallery":[{"url":"assets/images/hero-bg-1.jpg"},{"url":"assets/images/hero-bg-2.jpg"},{"url":"assets/images/hero-bg-3.jpg"},{"url":"assets/images/hero-bg-4.jpg"}]}'>
+    <div class="as-slider" id="heroSlider" data-settings='{"background_slideshow_gallery":[{"url":"Assets/images/hero-bg-1.jpg"},{"url":"Assets/images/hero-bg-2.jpg"},{"url":"Assets/images/hero-bg-3.jpg"},{"url":"Assets/images/hero-bg-4.jpg"}]}'>
       <!-- left: changing text -->
       <div class="as-changing">
         <div class="as-changing-widget">
@@ -940,14 +940,14 @@ body {
       <!-- right: stack of vertical cards -->
       <div class="as-side-slider">
         <div class="stack">
-          <div class="card card-0" data-index="0" style="background-image:url('assets/images/card-1.png'); background-size:cover;">
+          <div class="card card-0" data-index="0" style="background-image:url('Assets/images/card-1.png'); background-size:cover;">
             <div style="z-index:2;color:#fff">
               <div class="card-label">Precision Sensors</div>
               <div class="card-sub">HRV • SpO₂ • Temp</div>
             </div>
           </div>
 
-          <div class="card card-1" data-index="1" style="background-image:url('assets/images/card-2.jpg'); background-size:cover;">
+          <div class="card card-1" data-index="1" style="background-image:url('Assets/images/card-2.jpg'); background-size:cover;">
             <div style="z-index:2;color:#fff">
               <div class="card-label">AI Wellness Insights</div>
               <div class="card-sub">Personalized recommendations</div>
@@ -961,7 +961,7 @@ body {
             </div>
           </div>
 
-          <div class="card card-3" data-index="3" style="background-image:url('assets/images/card-4.png'); background-size:cover;">
+          <div class="card card-3" data-index="3" style="background-image:url('Assets/images/card-4.png'); background-size:cover;">
             <div style="z-index:2;color:#fff">
               <div class="card-label">Luxury Design</div>
               <div class="card-sub">Titanium & Liquid-glass</div>
@@ -997,10 +997,10 @@ body {
         gallery.forEach((i) => bgHtml += `<img src="${i.url}" alt="bg" />`);
       } else {
         // fallback backgrounds (plain gradients/placeholder)
-        bgHtml += `<img src="assets/images/hero-bg-1.png" alt="">`;
-        bgHtml += `<img src="assets/images/hero-bg-2.jpg" alt="">`;
-        bgHtml += `<img src="assets/images/hero-bg-3.jpg" alt="">`;
-        bgHtml += `<img src="assets/images/hero-bg-4.jpg" alt="">`;
+        bgHtml += `<img src="Assets/images/hero-bg-1.png" alt="">`;
+        bgHtml += `<img src="Assets/images/hero-bg-2.jpg" alt="">`;
+        bgHtml += `<img src="Assets/images/hero-bg-3.jpg" alt="">`;
+        bgHtml += `<img src="Assets/images/hero-bg-4.jpg" alt="">`;
       }
       bgHtml += '</div>';
       $slider.prepend(bgHtml);
