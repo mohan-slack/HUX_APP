@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HUX Smart Ring – Thank You</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fafafa;
+      color: #111;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+      text-align: center;
+    }
+    .btn-primary {
+      background: linear-gradient(180deg, #007aff, #0051c7);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 9999px;
+      padding: 14px 30px;
+      text-align: center;
+      transition: 0.3s ease;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(180deg, #005ce6, #0044a3);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl z-50">
+    <nav class="backdrop-blur-md bg-white/70 border border-white/20 rounded-2xl shadow-md flex justify-between items-center px-6 py-3">
+      <div class="flex items-center gap-3">
+        <img src="assets/images/logo.png" alt="HUX Logo" class="h-10">
+        <h2 class="text-lg font-semibold text-gray-800 tracking-tight">Order Confirmation</h2>
+      </div>
+
+      <a href="index.html" class="relative inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-gray-900 rounded-full overflow-hidden border border-transparent transition-all duration-500 hover:text-black group">
+        <span class="absolute inset-0 rounded-full border border-black opacity-0 group-hover:opacity-100 animate-borderFlow"></span>
+        <span class="relative z-10">Back to Store</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pt-32 pb-20 px-6">
+    <div class="card">
+      <div class="flex justify-center mb-6">
+        <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="text-2xl font-bold text-gray-800 mb-2">Thank You for Your Purchase!</h1>
+      <p class="text-gray-600 mb-6">Your order has been successfully placed. A confirmation email will be sent to you shortly.</p>
+
+      <!-- Order Summary -->
+      <div id="orderDetails" class="text-left bg-gray-50 border border-gray-200 rounded-xl p-5 mb-6"></div>
+
+      <p class="text-gray-600 text-sm mb-6">
+        Estimated Delivery: <span class="font-semibold text-gray-800" id="deliveryDate"></span><br>
+        Please allow <strong>15–20 business days</strong> for dispatch and delivery.
+      </p>
+
+      <a href="index.html" class="btn-primary">Continue Shopping</a>
+    </div>
+  </main>
+
+  <footer class="text-center text-sm text-gray-400 py-10">
+    © <span id="year"></span> HUX Smart Ring — Secure Checkout
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Load order info (cart + user)
+    const cart = JSON.parse(localStorage.getItem('hux_cart')) || {};
+    const orderDetails = document.getElementById('orderDetails');
+    const deliveryDateEl = document.getElementById('deliveryDate');
+
+    // Calculate estimated delivery date
+    const deliveryDate = new Date();
+    deliveryDate.setDate(deliveryDate.getDate() + 18);
+    deliveryDateEl.textContent = deliveryDate.toDateString();
+
+    if (cart && cart.name) {
+      orderDetails.innerHTML = `
+        <div class="flex items-center gap-3 mb-3">
+          <img src="${cart.image}" class="w-16 h-16 rounded-lg border object-cover" />
+          <div>
+            <div class="font-semibold text-gray-800">${cart.name}</div>
+            <div class="text-gray-500 text-sm">Color: ${cart.color || '--'} | Size: ${cart.size || '--'}</div>
+            <div class="text-gray-500 text-sm">Qty: ${cart.qty || 1}</div>
+          </div>
+        </div>
+        <div class="border-t border-gray-200 my-3"></div>
+        <div class="flex justify-between text-sm text-gray-700">
+          <span>Subtotal</span>
+          <span>₹${cart.price ? cart.price.toLocaleString() : cart.total.toLocaleString()}</span>
+        </div>
+        <div class="flex justify-between text-sm text-green-600 font-semibold">
+          <span>Discount</span>
+          <span>₹${cart.discount ? cart.discount.toLocaleString() : 0}</span>
+        </div>
+        <div class="border-t border-gray-200 my-3"></div>
+        <div class="flex justify-between text-base font-semibold">
+          <span>Total Paid</span>
+          <span>₹${cart.total.toLocaleString()}</span>
+        </div>
+      `;
+    } else {
+      orderDetails.innerHTML = `
+        <p class="text-gray-600">We couldn’t find your order details. 
+        Please <a href="index.html" class="text-blue-600 underline">return to store</a>.</p>
+      `;
+    }
+
+    // Clear cart data safely after display
+    setTimeout(() => {
+      localStorage.removeItem('hux_cart');
+    }, 4000);
+  </script>
+
+  <style>
+    @keyframes borderFlow {
+      0% { clip-path: inset(0 100% 0 0); }
+      50% { clip-path: inset(0 0 0 0); }
+      100% { clip-path: inset(0 0 0 100%); }
+    }
+    .animate-borderFlow { animation: borderFlow 1.8s linear infinite; }
+    header { margin-bottom: 32px; }
+    nav {
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</body>
+</html>

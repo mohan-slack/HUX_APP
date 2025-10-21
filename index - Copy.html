@@ -1,0 +1,1432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>HUX — Cinematic Hero Slider</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Tailwind for quick utility classes -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    /* ---------- Base page styling ---------- */
+    :root{
+      --pale-bg: #f7f9fb;
+      --card-bg: rgba(255,255,255,0.9);
+      --accent: #00b3ff;
+      --gold: #d4af37;
+      --glass: rgba(255,255,255,0.7);
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial}
+    body{background:linear-gradient(180deg,#fbfdff,#f0f6fb); color:#081129}
+
+    /* ---------- Nav (simple) ---------- */
+    header.nav {
+      position:fixed;left:50%;top:18px;transform:translateX(-50%);
+      width:92%;max-width:1200px;z-index:60;
+      display:flex;justify-content:space-between;align-items:center;
+      background:var(--card-bg);border-radius:14px;padding:10px 18px;
+      box-shadow:0 8px 30px rgba(15,20,25,0.06);backdrop-filter:blur(6px);
+    }
+    header.nav a{color:#0b1220;text-decoration:none;font-weight:600}
+    header.nav img.logo{height:34px;opacity:0.95}
+
+    /* ---------- Hero wrapper ---------- */
+    .hero-wrap {
+      max-width:1400px;margin:110px auto 60px;padding:36px;border-radius:22px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,250,250,0.96));
+      box-shadow: 0 20px 60px rgba(12,18,25,0.06);
+      position:relative; overflow:visible;
+    }
+
+    /* ========== AS-SLIDER (adapted from your code: selector -> .as-slider) ========== */
+    .as-slider{
+      --radius: 12px;
+      --height: 320px;
+      --active-height: 420px;
+      --overlay: 0.55;
+      position:relative;
+      display:flex;
+      gap:28px;
+      align-items:flex-end;
+      padding:28px;
+      min-height:420px;
+    }
+
+    .as-slider{
+      opacity:0;
+      transform: translateX(40px);
+      transition: all 0.7s ease-in-out;
+    }
+    .as-slider.loaded{
+      opacity:1;
+      transform: translateX(0);
+    }
+
+    /* Background slideshow container (absolute) */
+    .as-slider .as-slider-background{ position:absolute; inset:0; z-index:0; overflow:hidden; border-radius:18px; }
+    .as-slider .as-slider-background img{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.06); transition: all 900ms ease-in-out; }
+    .as-slider .as-slider-background img.currentForward,
+    .as-slider .as-slider-background img.currentBackward{ opacity:1; transform:scale(1); z-index:1; }
+
+    /* left changing text area */
+    .as-changing {
+      width:38%;
+      z-index:3;
+      position:relative;
+      display:flex;align-items:flex-end;
+    }
+    .as-changing .as-changing-widget{
+      position:relative; width:100%; --h: 120px;
+    }
+    .as-changing .elementor-widget{
+      position:absolute; top:50%; left:0; transform:translateY(-50%); width:100%;
+      transition: none !important;
+    }
+    .as-changing .elementor-widget > *{ transform: translateY(calc(-10 * var(--h))); transition: none !important; opacity:0 }
+    .as-changing .elementor-widget.currentUp > *{ animation: currentUp .6s ease forwards; }
+    .as-changing .elementor-widget.currentDown > *{ animation: currentDown .6s ease forwards; }
+    .as-changing .elementor-widget.prev > *{ animation: prev .6s ease forwards; }
+    .as-changing .elementor-widget.next > *{ animation: next .6s ease forwards; }
+
+    @keyframes prev { to { transform: translateY(calc(-1 * var(--h))); opacity:0 } }
+    @keyframes next { to { transform: translateY(var(--h)); opacity:0 } }
+    @keyframes currentUp { from { transform: translateY(var(--h)); opacity:0 } to { transform: translateY(0); opacity:1 } }
+    @keyframes currentDown { from { transform: translateY(calc(-1 * var(--h))); opacity:0 } to { transform: translateY(0); opacity:1 } }
+
+    /* right side: vertical cards / swiper-like stack */
+    .as-side-slider {
+      width:62%;
+      z-index:3;
+      position:relative;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    .as-side-slider .stack {
+      width:88%;
+      height:var(--active-height);
+      position:relative;
+      display:flex;align-items:flex-end;justify-content:center;
+    }
+
+    .as-side-slider .card {
+      position:absolute;
+      bottom:18px;
+      width:40%;
+      height:var(--height);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow: 0 20px 60px rgba(12,18,25,0.08);
+      transform-origin:center bottom;
+      transition: all 450ms cubic-bezier(.22,.9,.24,1);
+      background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(240,240,240,0.85));
+      display:flex;align-items:flex-end;justify-content:flex-start;padding:18px;
+      color:#fff;
+    }
+
+    /* position the cards so they appear in a row with parallax */
+    .as-side-slider .card.card-0{ left:8%; transform: translateY(28px) scale(.82); opacity:.65; z-index:10; }
+    .as-side-slider .card.card-1{ left:28%; transform: translateY(8px) scale(.92); opacity:.85; z-index:20; }
+    .as-side-slider .card.card-2{ left:48%; transform: translateY(0px) scale(1); opacity:1; z-index:30; width:46%; }
+    .as-side-slider .card.card-3{ left:70%; transform: translateY(12px) scale(.95); opacity:.9; z-index:15; width:36%; }
+
+    /* small overlay label on each card */
+    .card .card-label { font-family: 'Orbitron',sans-serif; font-weight:700; color: rgba(255,255,255,0.95); text-shadow:0 6px 18px rgba(0,0,0,0.55); font-size:18px }
+    .card .card-sub { font-size:12px; color:rgba(255,255,255,0.85); margin-top:6px; }
+
+    /* active card emphasis */
+    .as-side-slider .card.active {
+      transform: translateY(-4px) scale(1.02) !important;
+      box-shadow: 0 40px 80px rgba(12,18,25,0.18);
+      filter: none;
+    }
+
+    /* arrows on right side */
+    .as-nav {
+      position:absolute; right:22px; top:50%; transform:translateY(-50%);
+      display:flex;flex-direction:column;gap:18px; z-index:50;
+    }
+    .as-nav button {
+      width:44px;height:44px;border-radius:999px;border:none;background:white;box-shadow:0 6px 20px rgba(0,0,0,0.06);
+      display:grid;place-items:center;cursor:pointer;
+    }
+
+    /* left vertical dots */
+    .as-bar {
+      position:absolute; left:22px; top:50%; transform:translateY(-50%);
+      display:flex;flex-direction:column;gap:12px; z-index:50;
+      align-items:center;
+    }
+    .as-bar .dot {
+      width:20px;height:20px;border-radius:999px;background:#d2d8e0;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;transform:scale(.5);transition:all .25s;
+    }
+    .as-bar .dot.active{ transform:scale(1.05); background:var(--accent); color:white; font-weight:700; }
+
+    /* small caption overlay bottom-left */
+    .as-caption {
+      position:absolute; left:48px; bottom:18px; z-index:50; color:#fff; display:flex;gap:12px;align-items:center;
+    }
+    .as-caption .icon {
+      width:44px;height:44px;border-radius:999px;background:rgba(255,255,255,0.95);display:grid;place-items:center;color:#111;
+      box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    }
+    .as-caption .txt { color:rgba(255,255,255,0.95); font-weight:700; font-family: 'Orbitron',sans-serif; font-size:15px; text-shadow:0 6px 18px rgba(0,0,0,0.45) }
+
+    /* responsive */
+    @media (max-width: 1100px){
+      .as-slider { flex-direction:column; gap:18px; align-items:flex-start; padding:18px; min-height:520px }
+      .as-changing { width:100%; order:1; padding:10px 0 }
+      .as-side-slider { width:100%; order:2; display:flex; justify-content:center; }
+      .as-side-slider .stack { width:95%; }
+      .as-side-slider .card{ position:relative; left:auto; transform:none; width:100%; height:260px; margin-bottom:12px; border-radius:16px }
+      .as-side-slider .card.card-0, .as-side-slider .card.card-1, .as-side-slider .card.card-2, .as-side-slider .card.card-3 { opacity:1; transform:none; z-index:10; width:100% }
+      .as-nav { right: 8px; top:auto; bottom:10px; flex-direction:row }
+      .as-bar { left:8px; top: unset; bottom: 10px; transform:none; flex-direction:row }
+    }
+
+    /* small utilities for aesthetic */
+    .kicker { font-family:'Orbitron',sans-serif; color:var(--gold); font-weight:800; letter-spacing:1px; font-size:14px }
+    .hero-cta { display:inline-flex; gap:12px; margin-top:14px }
+    .btn-ghost { padding:10px 16px;border-radius:999px;border:1px solid rgba(10,20,30,0.06); background:rgba(255,255,255,0.9) }
+    .btn-primary { padding:10px 20px;border-radius:999px;background:linear-gradient(90deg,#00b3ff,#0077ff); color:#fff; font-weight:700; box-shadow:0 10px 30px rgba(0,123,255,0.12) }
+  </style>
+
+<style>
+  :root{
+    --bg:#05060a;
+    --card-bg: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    --accent: #00b3ff;
+    --max-width: 1400px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--bg);font-family:Inter, Poppins, system-ui, -apple-system; color:#eef2ff;}
+
+  /* SECTION LAYOUT */
+  .hero-section{
+    position:relative;
+    padding:64px 20px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+  }
+  .container{
+    width:100%;
+    max-width:var(--max-width);
+    position:relative;
+  }
+
+  /* BACKGROUND LAYER (parallax + faded bg image) */
+  .bg-layer{
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius:18px;
+    transform: translateZ(0);
+  }
+  .bg-layer img{
+    width:110%;
+    height:110%;
+    object-fit:cover;
+    transform-origin:center;
+    filter:brightness(.25) saturate(.9);
+    transition: transform 900ms cubic-bezier(.22,.9,.24,1), opacity 700ms ease;
+    opacity:0;
+  }
+  .bg-layer img.visible{opacity:1; transform: scale(1);}
+
+  /* HEADER / Title */
+  .section-head{
+    position:relative;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:28px;
+  }
+  .section-head .left{
+    color:#fff;
+  }
+  .section-head h1{
+    margin:0;font-size:28px;letter-spacing:0.2px;
+  }
+  .section-sub{color:rgba(255,255,255,0.7); font-size:14px}
+
+  /* HORIZONTAL TRACK */
+  .track-wrap{
+    position:relative;
+    z-index:5;
+    display:block;
+    overflow:hidden;
+    border-radius:18px;
+    padding:36px 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 -1px 0 rgba(255,255,255,0.02);
+  }
+
+  /* The scrollable track */
+  .track{
+    display:flex;
+    gap:28px;
+    padding:28px 48px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; /* firefox */
+  }
+  .track::-webkit-scrollbar{display:none}
+
+  /* A slide (card) */
+  .slide{
+    scroll-snap-align:center;
+    flex: 0 0 330px;     /* default compact size for side slides */
+    height:420px;
+    border-radius:18px;
+    position:relative;
+    overflow:hidden;
+    background:var(--card-bg);
+    box-shadow: 0 18px 40px rgba(3,10,25,0.6);
+    transform-origin:center;
+    transition:
+      transform 550ms cubic-bezier(.22,.9,.24,1),
+      width 550ms cubic-bezier(.22,.9,.24,1),
+      height 550ms cubic-bezier(.22,.9,.24,1),
+      filter 450ms ease,
+      box-shadow 450ms ease;
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-start;
+    padding:20px;
+    color:white;
+    min-width:330px;
+  }
+
+  /* content styling within slide */
+  .slide .meta{
+    z-index:3;
+    max-width:70%;
+  }
+  .slide .kicker{font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:8px; font-weight:700}
+  .slide h3{margin:0;font-size:20px;line-height:1.05; font-weight:700}
+  .slide p{margin:8px 0 0;color:rgba(255,255,255,0.8);font-size:14px;line-height:1.45}
+
+  .slide .visual{
+    position:absolute; inset:0; z-index:1;
+    background-position:center; background-size:cover;
+    transform-origin:center; transition: transform 750ms ease;
+    filter: saturate(0.85) contrast(0.92);
+  }
+  .slide:before{
+    content:"";
+    position:absolute; inset:0; z-index:2;
+    background:linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 70%);
+    pointer-events:none;
+  }
+
+  /* NON-ACTIVE look (side) */
+  .slide:not(.active){ transform: translateY(16px) scale(.92); filter: blur(.6px) grayscale(.05); opacity:0.9; }
+
+  /* ACTIVE slide: becomes large, z-pops, expands width to occupy center */
+  .slide.active{
+    flex: 0 0 80%;        /* expands (near-full width) */
+    height:520px;
+    transform: translateY(-16px) scale(1.02) translateZ(60px);
+    box-shadow: 0 60px 120px rgba(3,10,25,0.75);
+    filter: none;
+    border-radius:20px;
+    transition-duration:650ms;
+  }
+  .slide.active .visual{ transform: scale(1.06) translateZ(30px); filter: none; }
+
+  /* neighbours slightly dim */
+  .slide.prev, .slide.next{ transform: translateY(6px) scale(.96); opacity:0.95; filter: blur(.2px) }
+
+  /* pagination and controls */
+  .controls{
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    z-index:8;
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .btn{
+    background: rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.04);
+    color:#fff; padding:10px;border-radius:999px; cursor:pointer;
+    backdrop-filter: blur(6px);
+  }
+  .dots{
+    position:absolute; left:24px; bottom:18px; z-index:8; display:flex; gap:10px; align-items:center;
+  }
+  .dot{ width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,0.12); cursor:pointer; transition:all .25s }
+  .dot.active{ width:32px;background:linear-gradient(90deg,var(--accent),#0077ff); box-shadow:0 8px 30px rgba(0,179,255,0.14) }
+
+  /* responsive */
+  @media (max-width:1000px){
+    .slide{ min-width:280px; height:380px }
+    .slide.active{ flex: 0 0 92% ; height:420px }
+    .bg-layer img{ display:none } /* lighten for mobile */
+  }
+  @media (max-width:640px){
+    .section-head h1{ font-size:20px }
+    .slide{ height:320px; min-width:260px }
+    .slide.active{ height:380px }
+  }
+</style>
+<style>@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root {
+	--gray-700: #424242;
+	--gray-500: #737373;
+	--black: black;
+	--border-radius--tiny: .375rem;
+	--light-grey: #f4f4f4;
+	--border-radius--xtiny: .25rem;
+	--gray-800: #292929;
+	--gray-25: #fcfcfc;
+	--gray-400: #a3a3a3;
+	--gray-50: #fafafa;
+	--gray-900: #141414;
+	--dark-green: #25fabe;
+	--green: #61ffc9;
+	--nav--gray-800: #292929;
+	--nav--gray-50: #fafafa;
+	--gray-600: #525252;
+	--white: white;
+	--border-radius--xxsmall: .5rem;
+	--gray-300: #d6d6d6;
+	--gray-200: #e5e5e5;
+	--gray-100: whitesmoke;
+	--border-radius--xlarge: 2rem;
+	--border-radius--xxtiny: .175rem;
+	--border-radius--large-still: 1.75rem;
+	--border-radius--0: 0rem;
+	--border-radius--medium: 1.25rem;
+	--border-radius--large-change: 1.75rem;
+	--border-radius--xmedium: 1.5rem;
+	--border-radius--xsmall: .75rem;
+	--border-radius--small: 1rem;
+	--border-radius--home-hero: 2rem;
+	--nav--gray-700: #424242;
+	--border-radius--about-image: 2rem;
+	--border-radius--button-circle: 100vw;
+	--nav--circle: #292929;
+	--nav--y: #61ffc9;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+/*   overflow: hidden; */
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+/*   scroll-behavior: smooth; */
+}
+
+body {
+	margin: 0;
+	height: 100%;
+  font-family: "Poppins", sans-serif;
+}
+.intro-wrapper {
+  position: relative;
+  height: 90vh;
+  background-color: #f8f8f8;
+}
+.intro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+.text-align-center {
+  max-width: 600px;
+  text-align: center;
+  position: absolute;
+  top: 50px;
+}
+.text-align-center {
+	text-align: center;
+  scroll-behavior: smooth;
+  height: 100%;
+  will-change: transform, opacity;
+}
+
+.align-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.max-width-small {
+	width: 100%;
+	max-width: 30rem;
+}
+
+.margin-small {
+	margin: 3.5rem;
+	margin-bottom: 0;
+}
+
+.heading-style-h3 {
+	letter-spacing: -.02em;
+	font-size: 2.8125rem;
+	font-weight: 500;
+	line-height: 1;
+}
+
+.light-green-underline {
+	box-shadow: none;
+	display: inline-block;
+}
+
+p {
+	color: var(--gray-500);
+	margin-bottom: 5rem;
+}
+
+.text-size-medium {
+	font-size: 1.125rem;
+}
+
+sup {
+	top: 0em;
+}
+
+sub,
+sup {
+	vertical-align: baseline;
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+}
+
+.section_tabs {
+	z-index: 99;
+	border-radius: var(--border-radius--xlarge);
+	background-color: var(--gray-800);
+	position: relative;
+}
+
+.padding-section-large {
+	padding-top: 7rem;
+	padding-bottom: 7rem;
+	position: relative;
+}
+@media(max-width: 576px) {
+  .padding-section-large {
+    padding-top: 2rem;
+    padding-bottom: 0rem;
+  }
+}
+
+.tabs_height {
+	height: 550vh;
+}
+@media(max-width: 576px) {
+  .tabs_height {
+    height: 600vh;
+  }
+}
+
+.tabs_sticky-wrapper {
+	height: 100vh;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 5vh;
+}
+
+.tabs_container {
+	width: 100%;
+	max-width: 120rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.tabs_component {
+	height: 90vh;
+	grid-column-gap: 1.5rem;
+	grid-row-gap: 1.5rem;
+	grid-template-rows: auto;
+	grid-template-columns: .4fr 1fr;
+	grid-auto-columns: 1fr;
+	padding-left: 3.3%;
+	padding-right: 3.3%;
+	display: grid;
+}
+@media(max-width: 576px) {
+  .tabs_component {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tabs_left {
+	border-radius: var(--border-radius--medium);
+	background-color: var(--gray-700);
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: stretch;
+	padding: 1.5rem;
+	display: flex;
+}
+
+.tabs_left-top {
+	height: 100%;
+	position: relative;
+}
+
+.tabs_let-content {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	flex-direction: column;
+	justify-content: space-around;
+	padding-top: 0%;
+	padding-bottom: 0%;
+	display: flex;
+	position: absolute;
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+.tabs_let-content.is-1 {
+	opacity: 1;
+}
+
+.heading-style-h4 {
+	letter-spacing: -.02em;
+	font-size: 2.125rem;
+	font-weight: 500;
+	line-height: 1.05;
+}
+@media(max-width: 576px) {
+  .heading-style-h4 {
+    margin: 0;
+    font-size: 20px;
+  }
+}
+
+.text-color-gray100 {
+	color: var(--gray-100);
+}
+
+.tabs_line {
+	width: 100%;
+	height: 1px;
+	background-color: var(--gray-500);
+}
+
+.text-color-gray400 {
+	color: var(--gray-400);
+}
+
+.text-size-small {
+	font-size: 1rem;
+}
+@media(max-width: 576px) {
+  .text-size-small {
+    font-size: .875rem;
+  }
+}
+
+.tabs_left-bottom {
+	flex-direction: column;
+	display: flex;
+}
+
+.button {
+	grid-column-gap: .5rem;
+	grid-row-gap: .5rem;
+	border: 1px solid var(--gray-800);
+	background-color: var(--gray-800);
+	color: var(--gray-25);
+	text-align: center;
+	letter-spacing: .03em;
+	text-transform: uppercase;
+	cursor: pointer;
+	border-radius: .6rem;
+	justify-content: center;
+	align-items: center;
+	padding: .6rem 1.35rem;
+	font-size: .875rem;
+	text-decoration: none;
+	transition: color .6s;
+	display: flex;
+	overflow: hidden;
+}
+
+.tabs_video,
+.tabs_right,
+.button {
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+}
+
+.button.is-green {
+	border-color: var(--green);
+	background-color: var(--green);
+	color: var(--gray-900);
+}
+
+.button.is-secondary {
+	color: var(--gray-900);
+	background-color: transparent;
+	transition: border-color .6s, color .6s;
+}
+
+.button.is-green.is-secondary {
+	color: var(--gray-25);
+	background-color: rgba(97, 255, 201, 0);
+}
+
+.button-text {
+	z-index: 2;
+	position: relative;
+}
+
+.button-circle-wrapper {
+	width: 1.25rem;
+	height: 1.25rem;
+	border-radius: 100vw;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	position: relative;
+	overflow: hidden;
+}
+
+.button-icon {
+	z-index: 2;
+	width: 1rem;
+	height: 1rem;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	position: absolute;
+}
+
+.button-circlee {
+  color: var(--white);
+	width: 80%;
+	aspect-ratio: 1 / 1;
+	border-radius: var(--border-radius--button-circle);
+	position: absolute;
+	top: 0;
+  transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    height: 250px;
+    transition: all .2s ease-in-out;
+    will-change: transform, width, height, color;
+    border: 1px solid transparent;
+}
+.button.is-green.is-secondary:hover {
+  color: var(--gray-800);
+  border-color: var(--green);
+}
+.button.is-green.is-secondary:hover .button-circlee {
+	
+	background-color: var(--green);
+  transform: translate3d(0px, -43%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+  width: 100%;
+}
+
+.tabs_right {
+	width: 100%;
+	height: 100%;
+	border-radius: var(--border-radius--medium);
+	position: relative;
+	overflow: hidden;
+	grid-area: span 1 / span 1 / span 1 / span 1;
+}
+
+.w-background-video {
+	height: 500px;
+	color: #fff;
+	position: relative;
+	overflow: hidden;
+}
+
+.tabs_video {
+	width: 100%;
+	height: 100%;
+	border-radius: var(--border-radius--medium);
+	object-fit: cover;
+	position: absolute;
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+.tabs_video.is-1 {
+	opacity: 1;
+}
+
+audio,
+canvas,
+progress,
+video {
+	vertical-align: baseline;
+	display: inline-block;
+}
+
+.w-background-video>video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: -100;
+	background-position: 50%;
+	background-size: cover;
+	margin: auto;
+	position: absolute;
+	top: -100%;
+	bottom: -100%;
+	left: -100%;
+	right: -100%;
+}
+
+img {
+	border: 0;
+	max-width: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.tabs_video-gda-badge {
+	width: 5rem;
+	margin-bottom: 1.5rem;
+	object-fit: cover;
+	position: relative;
+	z-index: 2;
+	margin-top: 2rem;
+	margin-right: 2rem;
+
+}
+
+.w-background-video {
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	position: relative;
+	overflow: hidden;
+}
+
+.video-container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.tabs_video {
+	width: 100%;
+	height: 100%;
+	border-radius: var(--border-radius--medium);
+	object-fit: cover;
+	position: absolute;
+	opacity: 0;
+	transform: translateY(100%);
+	transition: opacity 0.5s, transform 0.5s;
+}
+
+.tabs_video.is-1 {
+	opacity: 1;
+	transform: translateY(0);
+}</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="flex items-center gap-6">
+      <a href="#ring" class="text-sm">HUX Ring</a>
+      <a href="#features" class="text-sm">Features</a>
+    </div>
+    <img src="assets/images/logo.png" class="logo" alt="HUX" />
+    <div class="flex items-center gap-6">
+      <a href="#about" class="text-sm">About</a>
+      <a href="#order" class="text-sm">Order</a>
+    </div>
+  </header>
+
+  <!-- HERO WRAPPER -->
+  <section class="hero-wrap">
+    <div class="as-slider" id="heroSlider" data-settings='{"background_slideshow_gallery":[{"url":"assets/images/hero-bg-1.jpg"},{"url":"assets/images/hero-bg-2.jpg"},{"url":"assets/images/hero-bg-3.jpg"},{"url":"assets/images/hero-bg-4.jpg"}]}'>
+      <!-- left: changing text -->
+      <div class="as-changing">
+        <div class="as-changing-widget">
+          <div class="elementor-widget" data-index="0">
+            <div style="max-width:420px;">
+              <div class="kicker">HUX NEXus</div>
+              <h2 style="font-size:28px; margin:8px 0 10px; font-weight:900">Precision Sensors — Clinical-grade accuracy</h2>
+              <p style="color:rgba(0,0,0,0.6)">HRV, SpO₂ and temperature sensing with clinical-grade sampling and battery-aware algorithms.</p>
+              <div class="hero-cta">
+                <a href="#features" class="btn-primary">Explore Features</a>
+                <a href="#order" class="btn-ghost">Pre-order</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="elementor-widget" data-index="1">
+            <div style="max-width:420px;">
+              <div class="kicker">HUX AI</div>
+              <h2 style="font-size:28px; margin:8px 0 10px; font-weight:900">AI Wellness Insights — Personal coach</h2>
+              <p style="color:rgba(0,0,0,0.6)">Context-aware suggestions that adapt to your lifestyle and activity patterns.</p>
+              <div class="hero-cta">
+                <a href="#features" class="btn-primary">Learn How</a>
+                <a href="#order" class="btn-ghost">Pre-order</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="elementor-widget" data-index="2">
+            <div style="max-width:420px;">
+              <div class="kicker">HUX Recovery</div>
+              <h2 style="font-size:28px; margin:8px 0 10px; font-weight:900">Recovery Tracking — Optimize rest</h2>
+              <p style="color:rgba(0,0,0,0.6)">Used by athletes and busy professionals to measure strain, recovery and readiness.</p>
+              <div class="hero-cta">
+                <a href="#features" class="btn-primary">See Metrics</a>
+                <a href="#order" class="btn-ghost">Pre-order</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="elementor-widget" data-index="3">
+            <div style="max-width:420px;">
+              <div class="kicker">HUX Design</div>
+              <h2 style="font-size:28px; margin:8px 0 10px; font-weight:900">Luxury Design — Minimal. Futuristic.</h2>
+              <p style="color:rgba(0,0,0,0.6)">Titanium build with liquid-glass finish — designed to be worn and not noticed.</p>
+              <div class="hero-cta">
+                <a href="#features" class="btn-primary">View Materials</a>
+                <a href="#order" class="btn-ghost">Pre-order</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- bar dots left -->
+      <div class="as-bar"></div>
+
+      <!-- right: stack of vertical cards -->
+      <div class="as-side-slider">
+        <div class="stack">
+          <div class="card card-0" data-index="0" style="background-image:url('assets/images/card-1.png'); background-size:cover;">
+            <div style="z-index:2;color:#fff">
+              <div class="card-label">Precision Sensors</div>
+              <div class="card-sub">HRV • SpO₂ • Temp</div>
+            </div>
+          </div>
+
+          <div class="card card-1" data-index="1" style="background-image:url('assets/images/card-2.jpg'); background-size:cover;">
+            <div style="z-index:2;color:#fff">
+              <div class="card-label">AI Wellness Insights</div>
+              <div class="card-sub">Personalized recommendations</div>
+            </div>
+          </div>
+
+          <div class="card card-2 active" data-index="2" style="background-image:url('assets/images/card-3.jpg'); background-size:cover;">
+            <div style="z-index:2;color:#fff">
+              <div class="card-label">Recovery Tracking</div>
+              <div class="card-sub">Strain • Readiness</div>
+            </div>
+          </div>
+
+          <div class="card card-3" data-index="3" style="background-image:url('assets/images/card-4.png'); background-size:cover;">
+            <div style="z-index:2;color:#fff">
+              <div class="card-label">Luxury Design</div>
+              <div class="card-sub">Titanium & Liquid-glass</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- caption bottom-left (on cards) -->
+        <div class="as-caption">
+          <div class="icon"><i class="bx bx-cog"></i></div>
+          <div class="txt">Precision Sensors</div>
+        </div>
+      </div>
+
+      <!-- arrows -->
+      <div class="as-nav" aria-hidden="false">
+        <button id="prevBtn"><i class="bx bx-chevron-left"></i></button>
+        <button id="nextBtn"><i class="bx bx-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Prepare slides data (used for backgrounds / syncing)
+    const $slider = $('#heroSlider');
+
+    // If data-settings contains background images, build the as-slider-background.
+    (function buildBackgrounds(){
+      let settings = $slider.attr('data-settings') ? JSON.parse($slider.attr('data-settings')) : null;
+      let gallery = settings && settings.background_slideshow_gallery ? settings.background_slideshow_gallery : null;
+      let bgHtml = '<div class="as-slider-background">';
+      if(gallery && gallery.length){
+        gallery.forEach((i) => bgHtml += `<img src="${i.url}" alt="bg" />`);
+      } else {
+        // fallback backgrounds (plain gradients/placeholder)
+        bgHtml += `<img src="assets/images/hero-bg-1.png" alt="">`;
+        bgHtml += `<img src="assets/images/hero-bg-2.jpg" alt="">`;
+        bgHtml += `<img src="assets/images/hero-bg-3.jpg" alt="">`;
+        bgHtml += `<img src="assets/images/hero-bg-4.jpg" alt="">`;
+      }
+      bgHtml += '</div>';
+      $slider.prepend(bgHtml);
+    })();
+
+    $(function(){
+      const $as = $('.as-slider');
+      const $widgets = $as.find('.elementor-widget');
+      const $cards = $as.find('.as-side-slider .card');
+      const $bgs = $as.find('.as-slider-background img');
+      const $bar = $as.find('.as-bar');
+      const slideCount = $cards.length;
+      let current = 2; // start (active center card index)
+      let prev = (current - 1 + slideCount) % slideCount;
+      let timer = null;
+
+      // build dots
+      let dotsHtml = '';
+      for(let i=0;i<slideCount;i++){
+        dotsHtml += `<div class="dot" data-index="${i}">${i+1}</div>`;
+      }
+      $bar.html(dotsHtml);
+      $bar.find('.dot').eq(current).addClass('active');
+
+      // set initial widget classes and heights
+      $widgets.each(function(i){
+        if(i === current) $(this).addClass('currentUp');
+        else if(i < current) $(this).addClass('prev');
+        else $(this).addClass('next');
+      });
+      // set initial bg
+      $bgs.removeClass('currentForward currentBackward prev').eq(current).addClass('currentForward');
+
+      // show loaded state
+      setTimeout(()=>{ $as.addClass('loaded'); }, 260);
+
+      function goto(index, directionOverride){
+        if(index === current) return;
+        const forward = (typeof directionOverride !== 'undefined') ? directionOverride : (index > current || (current === slideCount-1 && index === 0));
+        const prevIndex = current;
+        current = index;
+
+        // widgets management
+        const widgetsWrapper = $as.find('.as-changing-widget');
+        widgetsWrapper.each(function(){
+          const texts = $(this).find('.elementor-widget');
+          $(this).css('--h', texts.eq(current).height() + 'px');
+
+          texts.removeClass('prev next currentUp currentDown');
+          $bgs.removeClass('prev currentBackward currentForward');
+          $bgs.eq(prevIndex).addClass('prev');
+
+          if(forward){
+            texts.eq(prevIndex).addClass('prev');
+            texts.eq(current).addClass('currentUp');
+            $bgs.eq(current).addClass('currentForward');
+          } else {
+            texts.eq(prevIndex).addClass('next');
+            texts.eq(current).addClass('currentDown');
+            $bgs.eq(current).addClass('currentBackward');
+          }
+        });
+
+        // cards: update active class & position emphasis
+        $cards.removeClass('active');
+        $cards.each(function(){
+          const idx = parseInt($(this).attr('data-index'));
+          $(this).removeClass('pos-left pos-mid pos-right');
+        });
+        // compute new visible layout (centered on current)
+        // We'll rotate classes to simulate the overlapping stack
+        $cards.eq((current + slideCount - 2)%slideCount).addClass('card-0');
+        $cards.eq((current + slideCount - 1)%slideCount).addClass('card-1');
+        $cards.eq(current).addClass('card-2 active');
+        $cards.eq((current + 1)%slideCount).addClass('card-3');
+
+        // ensure DOM order matches classes (not strictly necessary but helps)
+        $cards.removeClass('card-0 card-1 card-2 card-3');
+        $cards.eq((current + slideCount - 2)%slideCount).addClass('card-0');
+        $cards.eq((current + slideCount - 1)%slideCount).addClass('card-1');
+        $cards.eq(current).addClass('card-2 active');
+        $cards.eq((current + 1)%slideCount).addClass('card-3');
+
+        // caption text change
+        const currentLabel = $cards.eq(current).find('.card-label').text();
+        $as.find('.as-caption .txt').text(currentLabel);
+
+        // background z-index / classes handled above
+
+        // update dots
+        $bar.find('.dot').removeClass('active').eq(current).addClass('active');
+        prev = prevIndex;
+      }
+
+      // click handlers
+      $bar.on('click', '.dot', function(){
+        const idx = parseInt($(this).attr('data-index'));
+        goto(idx);
+        resetAuto();
+      });
+
+      // card click: go to that slide
+      $cards.on('click', function(){ goto(parseInt($(this).attr('data-index'))); resetAuto(); });
+
+      // arrows
+      $('#prevBtn').on('click', function(){ goto((current - 1 + slideCount) % slideCount, false); resetAuto(); });
+      $('#nextBtn').on('click', function(){ goto((current + 1) % slideCount, true); resetAuto(); });
+
+      // auto-advance
+      function startAuto(){ timer = setInterval(()=> { goto((current + 1) % slideCount, true); }, 4500); }
+      function stopAuto(){ if(timer) clearInterval(timer); timer = null; }
+      function resetAuto(){ stopAuto(); startAuto(); }
+
+      // start
+      startAuto();
+
+      // keyboard nav
+      $(document).on('keydown', function(e){
+        if(e.key === 'ArrowLeft') { goto((current - 1 + slideCount) % slideCount, false); resetAuto(); }
+        if(e.key === 'ArrowRight') { goto((current + 1) % slideCount, true); resetAuto(); }
+      });
+
+      // ensure correct sizing when images load
+      $bgs.on('load', function(){ $as.addClass('loaded'); });
+
+      // expose goto for dev console if needed
+      window.heroGoto = goto;
+    });
+  </script>
+
+<section class="hero-section" aria-label="HUX Feature showcase">
+  <div class="container">
+    <div class="section-head">
+      <div class="left">
+        <h1>Discover HUX — Features in focus</h1>
+        <div class="section-sub">Scroll horizontally or use arrows / keyboard — center card expands with cinematic depth.</div>
+      </div>
+      <div class="controls" aria-hidden="false">
+        <button class="btn" id="prevBtn" title="Previous (left)">&larr;</button>
+        <button class="btn" id="nextBtn" title="Next (right)">&rarr;</button>
+      </div>
+    </div>
+
+    <!-- background parallax layer (driven by JS via data-bg on slides) -->
+    <div class="bg-layer" aria-hidden="true"></div>
+
+    <!-- Horizontal scroll track -->
+    <div class="track-wrap" role="region" aria-label="Feature slider">
+      <div class="track" id="track">
+        <!-- Example slides: replace images and text as needed -->
+        <article class="slide" data-index="0" data-bg="images/hux-bg-1.jpg" tabindex="0" aria-label="Precision sensors">
+          <div class="visual" style="background-image:url('assets/images/hux-1.png')"></div>
+          <div class="meta">
+            <div class="kicker">Precision Sensors</div>
+            <h3>Clinical-grade HRV & SpO₂</h3>
+            <p>Advanced sampling and battery-aware algorithms providing reliable health metrics around the clock.</p>
+          </div>
+        </article>
+
+        <article class="slide" data-index="1" data-bg="images/hux-bg-2.jpg" tabindex="0" aria-label="AI insights">
+          <div class="visual" style="background-image:url('assets/images/hux-2.jpg')"></div>
+          <div class="meta">
+            <div class="kicker">HUX AI</div>
+            <h3>Personal Wellness Coach</h3>
+            <p>Context-aware insights that adapt to your routine, sleep & training to give actionable guidance.</p>
+          </div>
+        </article>
+
+        <article class="slide" data-index="2" data-bg="images/hux-bg-3.jpg" tabindex="0" aria-label="Recovery tracking">
+          <div class="visual" style="background-image:url('assets/images/hux-3.png')"></div>
+          <div class="meta">
+            <div class="kicker">Recovery</div>
+            <h3>Strain & Readiness</h3>
+            <p>See how your body recovers — optimize training, rest and daily load with simple readiness scores.</p>
+          </div>
+        </article>
+
+        <article class="slide" data-index="3" data-bg="images/hux-bg-4.jpg" tabindex="0" aria-label="Design">
+          <div class="visual" style="background-image:url('images/hux-4.jpg')"></div>
+          <div class="meta">
+            <div class="kicker">Design</div>
+            <h3>Titanium & Liquid-glass</h3>
+            <p>Durable, lightweight materials finished with an interstellar sheen—wear all day, everyday.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- pagination dots -->
+      <div class="dots" id="dots" aria-hidden="false"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ---------- Utilities & hookup ---------- */
+const track = document.getElementById('track');
+const slides = Array.from(track.querySelectorAll('.slide'));
+const bgLayer = document.querySelector('.bg-layer');
+const dotsWrap = document.getElementById('dots');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let activeIndex = 0;
+let isScrollingProgrammatic = false;
+
+/* build background images within bg-layer for parallax crossfade */
+(function buildBgElems(){
+  slides.forEach((s, i)=>{
+    const url = s.dataset.bg || '';
+    const img = document.createElement('img');
+    img.src = url;
+    if(i===0) img.classList.add('visible');
+    bgLayer.appendChild(img);
+  });
+})();
+
+/* build dots */
+slides.forEach((s,i)=>{
+  const d = document.createElement('div');
+  d.className='dot' + (i===0 ? ' active' : '');
+  d.dataset.index = i;
+  d.tabIndex = 0;
+  d.setAttribute('aria-label','Go to slide '+(i+1));
+  dotsWrap.appendChild(d);
+});
+
+/* helper: center a slide in view (smooth) */
+function centerSlide(index){
+  const slide = slides[index];
+  if(!slide) return;
+  isScrollingProgrammatic = true;
+  const left = slide.offsetLeft + (slide.offsetWidth/2) - (track.clientWidth/2);
+  track.scrollTo({ left, behavior:'smooth' });
+  setTimeout(()=> isScrollingProgrammatic = false, 700);
+}
+
+/* intersection observer to mark active (center) slide */
+const observer = new IntersectionObserver((entries)=>{
+  // find the slide with largest intersectionRatio (best centered)
+  let best = {ratio:0,el:null};
+  entries.forEach(en=>{
+    if(en.intersectionRatio > best.ratio){
+      best.ratio = en.intersectionRatio; best.el = en.target;
+    }
+  });
+  if(!best.el) return;
+  const newIndex = Number(best.el.dataset.index);
+  if(newIndex === activeIndex) return;
+  setActive(newIndex);
+},{
+  root: track,
+  threshold: [0,0.25,0.45,0.6,0.8,0.95] // more thresholds gives smoother selection
+});
+
+/* observe each slide */
+slides.forEach(s => observer.observe(s));
+
+/* set active slide classes, update bg, dots */
+function setActive(index){
+  activeIndex = index;
+  slides.forEach((s,i)=>{
+    s.classList.remove('active','prev','next');
+    if(i === index) s.classList.add('active');
+    else if(i === index - 1 || (index===0 && i===slides.length-1)) s.classList.add('prev');
+    else if(i === index + 1 || (index===slides.length-1 && i===0)) s.classList.add('next');
+  });
+
+  // background crossfade
+  const bgImgs = Array.from(bgLayer.querySelectorAll('img'));
+  bgImgs.forEach((img,i)=> img.classList.toggle('visible', i===index));
+
+  // dots
+  Array.from(dotsWrap.children).forEach((d,i)=> d.classList.toggle('active', i===index));
+}
+
+/* click handlers for dots and arrow controls */
+dotsWrap.addEventListener('click', (e)=>{
+  const dot = e.target.closest('.dot');
+  if(!dot) return;
+  const idx = Number(dot.dataset.index);
+  centerSlide(idx);
+});
+
+dotsWrap.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter' || e.key === ' ') {
+    const dot = e.target.closest('.dot');
+    if(!dot) return;
+    centerSlide(Number(dot.dataset.index));
+  }
+});
+
+prevBtn.addEventListener('click', ()=> {
+  const idx = (activeIndex - 1 + slides.length) % slides.length;
+  centerSlide(idx);
+});
+nextBtn.addEventListener('click', ()=> {
+  const idx = (activeIndex + 1) % slides.length;
+  centerSlide(idx);
+});
+
+/* support arrow keys */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'ArrowRight') nextBtn.click();
+  if(e.key === 'ArrowLeft') prevBtn.click();
+});
+
+/* wheel-to-scroll horizontally (desktop natural feel) */
+track.addEventListener('wheel', (e)=>{
+  // prevent vertical page scroll if horizontal track is scrollable
+  if(Math.abs(e.deltaX) < Math.abs(e.deltaY)){
+    // translate vertical wheel into horizontal scroll
+    track.scrollBy({ left: e.deltaY, behavior:'auto' });
+    e.preventDefault();
+  }
+}, { passive:false });
+
+/* touch: ensure snap-to-center when scrolling ends */
+let scrollTimeout = null;
+track.addEventListener('scroll', ()=>{
+  if(isScrollingProgrammatic) return;
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(()=> {
+    // determine nearest slide to center
+    const trackCenter = track.scrollLeft + (track.clientWidth/2);
+    let nearestIndex = 0;
+    let nearestDist = Infinity;
+    slides.forEach((s,i)=>{
+      const center = s.offsetLeft + (s.offsetWidth/2);
+      const dist = Math.abs(center - trackCenter);
+      if(dist < nearestDist){ nearestDist = dist; nearestIndex = i; }
+    });
+    centerSlide(nearestIndex);
+  }, 110);
+});
+
+/* click on a slide to center it */
+slides.forEach(s=>{
+  s.addEventListener('click', (e)=>{
+    const idx = Number(s.dataset.index);
+    centerSlide(idx);
+  });
+});
+
+/* initial measure: ensure first slide centered on load (use setTimeout so layout done) */
+setTimeout(()=> centerSlide(0), 120);
+
+/* optional: expose API for debugging */
+window.huxSlider = { centerSlide, slides };
+
+/* Accessibility: focus styling via keyboard focus */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Tab'){
+    document.documentElement.classList.add('show-focus');
+  }
+});
+</script>
+
+<!-- <header style="height:50px;"></header> -->
+  <div class="intro-wrapper">
+    <div class="intro" style="display: flex; justify-content: center; align-items: center; position: relative; z-index: 1;">
+      <div class="text-align-center" id="js-pin">
+        <div class="max-width-small align-center">
+          <div class="margin-bottom margin-small">
+            <h2 class="heading-style-h3" ><span class="light-green-underline">149€/month</span> &amp; not a single worry</h2>
+        </div>
+        <p class="text-size-medium">
+        We take care of registration, insurance, and maintenance to ensure you have 
+        a hassle-free ride! <sup>*including theft coverage under certain conditions.</sup>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<section class="section_tabs" style="z-index: 2;">
+   <div class="padding-section-large">
+      <div class="tabs_height">
+         <div class="tabs_sticky-wrapper">
+            <div class="tabs_container">
+               <div class="tabs_component">
+                  <div class="tabs_left">
+                     <div class="tabs_left-top">
+                        <div class="tabs_let-content is-1">
+                           <h2 class="heading-style-h4 text-color-gray100">Reinventing micro-mobility with <span class="text-color-green">Award winning</span> design</h2>
+                           <div class="tabs_line"></div>
+                           <p class="text-size-small text-color-gray400">Our mission is to close the gap between a scooter and a bike. Yoda is the lightest vehicle of its category, designed to be agile and fun for everyone to ride.</p>
+                        </div>
+                        <div class="tabs_let-content is-2">
+                           <h2 class="heading-style-h4 text-color-gray100">Best in class energy management for <span class="text-color-green">optimal autonomy</span></h2>
+                           <div class="tabs_line"></div>
+                           <p class="text-size-small text-color-gray400">3 riding modes: 🌱 eco, ⚡️ normal & 🚀 boost - that offer up to 80 km range on one single charge with a swappable battery.</p>
+                        </div>
+                        <div class="tabs_let-content is-3">
+                           <h2 class="heading-style-h4 text-color-gray100">Durable and effortless, <span class="text-color-green">all the way</span></h2>
+                           <div class="tabs_line"></div>
+                           <p class="text-size-small text-color-gray400">We spent years crafting Yoda, stripping away unnecessary components to deliver a <strong>simple</strong> and <strong>efficient</strong> mobility experience.</p>
+                        </div>
+                     </div>
+                     <div class="tabs_left-bottom">
+                        <div class="button is-green is-secondary">
+                           <div class="button-text">Order today</div>
+                           <div class="button-circle-wrapper">
+                              <div class="button-icon _1 w-embed">
+                                 <svg height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.66699 11.3332L11.3337 4.6665" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M4.66699 4.6665H11.3337V11.3332" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                 </svg>
+                              </div>
+                              <div class="button-icon _2 w-embed">
+                                 <svg height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.66699 11.3332L11.3337 4.6665" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M4.66699 4.6665H11.3337V11.3332" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                 </svg>
+                              </div>
+                           </div>
+                           <div class="button-circlee background-color-green"></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="tabs_right">
+                     <div class="tabs_video is-1 w-background-video w-background-video-atom" style="display: flex; justify-content: flex-end; align-items: flex-start;">
+                        <video id="video-1" autoplay="" loop="" muted="" playsinline="" data-object-fit="cover">
+                           <source src="https://assets-global.website-files.com/65ae37af356fab4845432048/65be0fdac914d702e08f70ed_Yoda-Helmet_1-transcode.mp4" data-wf-ignore="true">
+                           <source src="https://assets-global.website-files.com/65ae37af356fab4845432048/65be0fdac914d702e08f70ed_Yoda-Helmet_1-transcode.webm" data-wf-ignore="true">
+                        </video>
+                        <img src="https://assets-global.website-files.com/65ae37af356fab4845432048/65b0dc37d226a551affbf2ea_GDA24_HO_WINNER_MC_RGB.webp" loading="lazy" sizes="(max-width: 479px) 56px, 80px" srcset="https://assets-global.website-files.com/65ae37af356fab4845432048/65b0dc37d226a551affbf2ea_GDA24_HO_WINNER_MC_RGB-p-500.png 500w, https://assets-global.website-files.com/65ae37af356fab4845432048/65b0dc37d226a551affbf2ea_GDA24_HO_WINNER_MC_RGB.webp 1298w" alt="German design award winner 2024 logo." class="tabs_video-gda-badge">
+                     </div>
+                     <div class="tabs_video w-background-video w-background-video-atom">
+                        <video id="video-2" autoplay="" loop="" muted="" playsinline="" data-object-fit="cover">
+                           <source src="https://assets-global.website-files.com/65ae37af356fab4845432048/65ae37af356fab48454320ae_BatteryRemoval_Pingpong_001-transcode.mp4" data-wf-ignore="true">
+                           <source src="https://assets-global.website-files.com/65ae37af356fab4845432048/65ae37af356fab48454320ae_BatteryRemoval_Pingpong_001-transcode.webm" data-wf-ignore="true">
+                        </video>
+                     </div>
+                     <div class="tabs_video w-background-video w-background-video-atom">
+                        <video id="video-3" autoplay="" loop="" muted="" playsinline="" data-object-fit="cover">
+                           <source src="https://assets-global.website-files.com/65ae37af356fab4845432048/65be104f9aba74d774b7f4a3_Yoda-Exploded-50-transcode.mp4" data-wf-ignore="true">
+                           <source src="https://assets-global.website-files.com/65ae37af356fab4845432048/65be104f9aba74d774b7f4a3_Yoda-Exploded-50-transcode.webm" data-wf-ignore="true">
+                        </video>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<div style="height:50vh;"></div>
+
+<script></script>
+</body>
+</html>

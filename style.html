@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HUX Health Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ivory: #faf6ef;
+  --accent: #00b3ff;
+  --gold: #d4af37;
+  --text: #111;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--ivory);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* -------- SECTION -------- */
+.section-health {
+  padding: 70px 0;
+  text-align: center;
+}
+.section-health h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 50px;
+}
+.section-health span {
+  color: var(--gold);
+}
+
+/* -------- CARD ROW -------- */
+.card-row {
+  display: flex;
+  gap: 40px;
+  justify-content: flex-start;
+  padding: 0 60px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.card-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* -------- HEALTH CARD -------- */
+.health-card {
+  position: relative;
+  width: 280px;
+  height: 380px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  background: #fff;
+  perspective: 1200px;
+  flex-shrink: 0;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+/* Glass overlay shimmer */
+.health-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 100%);
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.health-card:hover::before {
+  opacity: 1;
+}
+
+/* Layers inside card */
+.health-card > div {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+  transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1), box-shadow 1s ease;
+}
+
+/* Front side */
+.card-front {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 40px 20px;
+  z-index: 3;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+  transition: transform 0.8s ease, box-shadow 0.8s ease;
+}
+.card-front h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+}
+.card-front .value {
+  font-size: 34px;
+  font-weight: 700;
+  margin-top: 8px;
+  color: var(--accent);
+}
+.card-front p {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* Back side (graph) */
+.card-back {
+  background: rgba(255,255,255,0.92);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 30px;
+  transform: rotateX(-90deg);
+  box-shadow: inset 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Active effect */
+.health-card.active .card-front {
+  transform: rotateX(-100deg) translateY(20px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+}
+.health-card.active .card-back {
+  transform: rotateX(0deg);
+  animation: popUp 0.8s ease forwards;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+@keyframes popUp {
+  from { transform: rotateX(-90deg) translateY(40px) scale(0.9); opacity: 0; }
+  to { transform: rotateX(0deg) translateY(0) scale(1); opacity: 1; }
+}
+
+/* -------- GRAPH AREA -------- */
+.chart {
+  width: 90%;
+  height: 180px;
+  margin-top: 20px;
+  position: relative;
+}
+.chart svg {
+  width: 100%;
+  height: 100%;
+}
+.chart path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: drawLine 2s ease forwards;
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Numbers (behind graph) */
+.numbers {
+  position: absolute;
+  bottom: 8px;
+  left: 5%;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(0,0,0,0.25);
+  font-weight: 600;
+}
+
+/* Day labels */
+.days {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #555;
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 900px) {
+  .card-row { gap: 25px; padding: 0 20px; }
+  .health-card { width: 250px; height: 340px; }
+}
+</style>
+</head>
+<body>
+
+<section class="section-health">
+  <h1>HUX <span>Vitals</span> Dashboard</h1>
+  <div class="card-row">
+
+    <!-- Steps -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('https://images.unsplash.com/photo-1599058917212-d750089bc07b?q=80&w=1000');">
+        <h2>Steps</h2>
+        <div class="value">53,352</div>
+        <p>Weekly Total</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">Step Trend</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,140 Q40,110 70,120 T140,80 T210,130 T280,60"></path>
+          </svg>
+          <div class="numbers"><span>8k</span><span>3k</span><span>6k</span><span>4k</span><span>10k</span><span>9k</span><span>13k</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+    <!-- Sleep -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('https://images.unsplash.com/photo-1596484557692-3b5a2d5186ab?q=80&w=1000');">
+        <h2>Sleep</h2>
+        <div class="value">7.3 h</div>
+        <p>Avg Duration</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">Sleep Pattern</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,120 Q40,140 70,100 T140,130 T210,80 T280,110"></path>
+          </svg>
+          <div class="numbers"><span>6h</span><span>7h</span><span>8h</span><span>6h</span><span>7.5h</span><span>7h</span><span>8h</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+    <!-- Stress -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1000');">
+        <h2>Stress</h2>
+        <div class="value">Moderate</div>
+        <p>Last 7 Days</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">Stress Levels</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,90 Q40,70 70,100 T140,80 T210,120 T280,90"></path>
+          </svg>
+          <div class="numbers"><span>3</span><span>4</span><span>5</span><span>4</span><span>6</span><span>5</span><span>3</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+    <!-- HRV -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('https://images.unsplash.com/photo-1556228578-5a0e5eeb6d2d?q=80&w=1000');">
+        <h2>HRV</h2>
+        <div class="value">65 ms</div>
+        <p>Heart Variability</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">HRV Trends</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,110 Q40,90 70,120 T140,100 T210,130 T280,90"></path>
+          </svg>
+          <div class="numbers"><span>55</span><span>62</span><span>58</span><span>70</span><span>68</span><span>64</span><span>65</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+    <!-- SpO₂ -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1000');">
+        <h2>SpO₂</h2>
+        <div class="value">98%</div>
+        <p>Oxygen Level</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">Oxygen Levels</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,120 Q40,100 70,120 T140,100 T210,110 T280,105"></path>
+          </svg>
+          <div class="numbers"><span>96</span><span>97</span><span>98</span><span>97</span><span>99</span><span>98</span><span>98</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.health-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    card.classList.toggle('active');
+  });
+});
+</script>
+
+</body>
+</html>

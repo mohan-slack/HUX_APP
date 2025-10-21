@@ -1,0 +1,3686 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HUX Smart Ring</title>
+<!-- ===== GOOGLE FONTS ===== -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<style>/* ===== GLOBAL TYPOGRAPHY SYSTEM ===== */
+<link rel="stylesheet" href="assets/css/responsive.css">
+
+/* Base font reset */
+* {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.3px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Futuristic heading style */
+h1, h2, h3, h4, h5, h6,
+.hero h1, .order-heading, .section-reviews h2,
+.text-content h1, .content h1,
+.hux-header h2, #hux-specs h4 {
+  font-family: 'Orbitron', sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Optional - tweak visual hierarchy */
+h1 { font-weight: 900; }
+h2, h3 { font-weight: 700; }
+h4, h5, h6 { font-weight: 600; }
+
+/* Body text stays clean and legible */
+p, li, span, a, button, input, textarea {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400;
+  line-height: 1.6;
+}
+</style>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        /* Fallback gradient if Tailwind fails */
+        background: linear-gradient(to bottom right, #ffffff, #f0f6ff, #e6f0fa);
+      }
+    </style>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(to bottom right, #ffffff, #f0f6ff, #e6f0fa);
+      }
+
+      /* Mobile-specific overrides */
+      @media (max-width: 768px) {
+        header nav {
+          grid-template-columns: 1fr auto 1fr !important;
+          gap: 10px;
+        }
+        header nav div.flex.gap-8 {
+          gap: 4px;
+          font-size: 14px;
+        }
+        header nav img {
+          height: 32px !important;
+        }
+        .content h1 {
+          font-size: 1.8rem !important;
+        }
+        .content p {
+          font-size: 1rem !important;
+        }
+        .stats-cluster {
+          grid-template-columns: 1fr !important;
+          gap: 12px !important;
+        }
+        .stat-card {
+          height: 120px !important;
+          font-size: 1rem !important;
+        }
+        .order-heading {
+          font-size: 2rem !important;
+          letter-spacing: 1px !important;
+        }
+        .product-card {
+          max-width: 100% !important;
+          height: auto !important;
+        }
+        .product-card img {
+          max-width: 150px !important;
+        }
+        .grid-cols-2,
+        .grid-cols-3,
+        .grid-cols-4,
+        .md\\:grid-cols-2,
+        .md\\:grid-cols-3,
+        .lg\\:grid-cols-4 {
+          grid-template-columns: 1fr !important;
+        }
+        section {
+          padding: 2rem 1rem !important;
+        }
+        .floating-ring {
+          width: 150px !important;
+        }
+        .faq-question {
+          font-size: 1rem !important;
+        }
+      }
+    </style>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+
+<style>
+/* --- Base Layout --- */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+  color: #222;
+  overflow-x: hidden;
+}
+
+/* --- Section --- */
+.section-reviews {
+  padding: 80px 0;
+  background: #fff;
+  text-align: center;
+  overflow: hidden;
+}
+
+.section-reviews h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 50px;
+  letter-spacing: -0.5px;
+}
+
+.section-reviews h2 span {
+  color: #0077ff;
+}
+
+/* --- Carousel --- */
+.review-carousel {
+  display: flex;
+  gap: 24px;
+  padding: 0 20px;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+/* --- Card --- */
+.review-card {
+  flex: 0 0 300px;
+  background: #fafafa;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Animated Border (like "Back to Store" button) --- */
+.review-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  background: 
+    linear-gradient(0deg, #000 0 0) top/100% 2px no-repeat,
+    linear-gradient(90deg, #000 0 0) right/2px 100% no-repeat,
+    linear-gradient(180deg, #000 0 0) bottom/100% 2px no-repeat,
+    linear-gradient(270deg, #000 0 0) left/2px 100% no-repeat;
+  background-repeat: no-repeat;
+}
+
+.review-card:hover::before {
+  opacity: 1;
+  animation: borderDraw 2s linear forwards;
+}
+
+@keyframes borderDraw {
+  0% {
+    background-size: 0 2px, 2px 0, 0 2px, 2px 0;
+  }
+  25% {
+    background-size: 100% 2px, 2px 0, 0 2px, 2px 0;
+  }
+  50% {
+    background-size: 100% 2px, 2px 100%, 0 2px, 2px 0;
+  }
+  75% {
+    background-size: 100% 2px, 2px 100%, 100% 2px, 2px 0;
+  }
+  100% {
+    background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
+  }
+}
+
+/* --- Image --- */
+.review-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 16px;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #0077ff33;
+}
+
+/* --- Text --- */
+.review-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.review-card p.title {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.review-card i {
+  font-size: 1.8rem;
+  color: #0077ff;
+  margin-bottom: 10px;
+}
+
+.review-card p.quote {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .review-card {
+    flex: 0 0 80%;
+  }
+}
+</style>
+
+<!-- Tailwind for quick utility classes -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    /* ---------- Base page styling ---------- */
+    :root{
+      --pale-bg: #f7f9fb;
+      --card-bg: rgba(255,255,255,0.9);
+      --accent: #00b3ff;
+      --gold: #d4af37;
+      --glass: rgba(255,255,255,0.7);
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial}
+    body{background:linear-gradient(180deg,#fbfdff,#f0f6fb); color:#081129}
+
+    /* ---------- Nav (simple) ---------- */
+    header.nav {
+      position:fixed;left:50%;top:18px;transform:translateX(-50%);
+      width:92%;max-width:1200px;z-index:60;
+      display:flex;justify-content:space-between;align-items:center;
+      background:var(--card-bg);border-radius:14px;padding:10px 18px;
+      box-shadow:0 8px 30px rgba(15,20,25,0.06);backdrop-filter:blur(6px);
+    }
+    header.nav a{color:#0b1220;text-decoration:none;font-weight:600}
+    header.nav img.logo{height:34px;opacity:0.95}
+
+    /* ---------- Hero wrapper ---------- */
+    .hero-wrap {
+      max-width:1400px;margin:110px auto 60px;padding:36px;border-radius:22px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,250,250,0.96));
+      box-shadow: 0 20px 60px rgba(12,18,25,0.06);
+      position:relative; overflow:visible;
+    }
+
+    /* ========== AS-SLIDER (adapted from your code: selector -> .as-slider) ========== */
+    .as-slider{
+      --radius: 12px;
+      --height: 320px;
+      --active-height: 420px;
+      --overlay: 0.55;
+      position:relative;
+      display:flex;
+      gap:28px;
+      align-items:flex-end;
+      padding:28px;
+      min-height:420px;
+    }
+
+    .as-slider{
+      opacity:0;
+      transform: translateX(40px);
+      transition: all 0.7s ease-in-out;
+    }
+    .as-slider.loaded{
+      opacity:1;
+      transform: translateX(0);
+    }
+
+    /* Background slideshow container (absolute) */
+    .as-slider .as-slider-background{ position:absolute; inset:0; z-index:0; overflow:hidden; border-radius:18px; }
+    .as-slider .as-slider-background img{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.06); transition: all 900ms ease-in-out; }
+    .as-slider .as-slider-background img.currentForward,
+    .as-slider .as-slider-background img.currentBackward{ opacity:1; transform:scale(1); z-index:1; }
+
+    /* left changing text area */
+    .as-changing {
+      width:38%;
+      z-index:3;
+      position:relative;
+      display:flex;align-items:flex-end;
+    }
+    .as-changing .as-changing-widget{
+      position:relative; width:100%; --h: 120px;
+    }
+    .as-changing .elementor-widget{
+      position:absolute; top:50%; left:0; transform:translateY(-50%); width:100%;
+      transition: none !important;
+    }
+    .as-changing .elementor-widget > *{ transform: translateY(calc(-10 * var(--h))); transition: none !important; opacity:0 }
+    .as-changing .elementor-widget.currentUp > *{ animation: currentUp .6s ease forwards; }
+    .as-changing .elementor-widget.currentDown > *{ animation: currentDown .6s ease forwards; }
+    .as-changing .elementor-widget.prev > *{ animation: prev .6s ease forwards; }
+    .as-changing .elementor-widget.next > *{ animation: next .6s ease forwards; }
+
+    @keyframes prev { to { transform: translateY(calc(-1 * var(--h))); opacity:0 } }
+    @keyframes next { to { transform: translateY(var(--h)); opacity:0 } }
+    @keyframes currentUp { from { transform: translateY(var(--h)); opacity:0 } to { transform: translateY(0); opacity:1 } }
+    @keyframes currentDown { from { transform: translateY(calc(-1 * var(--h))); opacity:0 } to { transform: translateY(0); opacity:1 } }
+
+    /* right side: vertical cards / swiper-like stack */
+    .as-side-slider {
+      width:62%;
+      z-index:3;
+      position:relative;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    .as-side-slider .stack {
+      width:88%;
+      height:var(--active-height);
+      position:relative;
+      display:flex;align-items:flex-end;justify-content:center;
+    }
+
+    .as-side-slider .card {
+      position:absolute;
+      bottom:18px;
+      width:40%;
+      height:var(--height);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow: 0 20px 60px rgba(12,18,25,0.08);
+      transform-origin:center bottom;
+      transition: all 450ms cubic-bezier(.22,.9,.24,1);
+      background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(240,240,240,0.85));
+      display:flex;align-items:flex-end;justify-content:flex-start;padding:18px;
+      color:#fff;
+    }
+
+    /* position the cards so they appear in a row with parallax */
+    .as-side-slider .card.card-0{ left:8%; transform: translateY(28px) scale(.82); opacity:.65; z-index:10; }
+    .as-side-slider .card.card-1{ left:28%; transform: translateY(8px) scale(.92); opacity:.85; z-index:20; }
+    .as-side-slider .card.card-2{ left:48%; transform: translateY(0px) scale(1); opacity:1; z-index:30; width:46%; }
+    .as-side-slider .card.card-3{ left:70%; transform: translateY(12px) scale(.95); opacity:.9; z-index:15; width:36%; }
+
+    /* small overlay label on each card */
+    .card .card-label { font-family: 'Orbitron',sans-serif; font-weight:700; color: rgba(255,255,255,0.95); text-shadow:0 6px 18px rgba(0,0,0,0.55); font-size:18px }
+    .card .card-sub { font-size:12px; color:rgba(255,255,255,0.85); margin-top:6px; }
+
+    /* active card emphasis */
+    .as-side-slider .card.active {
+      transform: translateY(-4px) scale(1.02) !important;
+      box-shadow: 0 40px 80px rgba(12,18,25,0.18);
+      filter: none;
+    }
+
+    /* arrows on right side */
+    .as-nav {
+      position:absolute; right:22px; top:50%; transform:translateY(-50%);
+      display:flex;flex-direction:column;gap:18px; z-index:50;
+    }
+    .as-nav button {
+      width:44px;height:44px;border-radius:999px;border:none;background:white;box-shadow:0 6px 20px rgba(0,0,0,0.06);
+      display:grid;place-items:center;cursor:pointer;
+    }
+
+    /* left vertical dots */
+    .as-bar {
+      position:absolute; left:22px; top:50%; transform:translateY(-50%);
+      display:flex;flex-direction:column;gap:12px; z-index:50;
+      align-items:center;
+    }
+    .as-bar .dot {
+      width:20px;height:20px;border-radius:999px;background:#d2d8e0;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;transform:scale(.5);transition:all .25s;
+    }
+    .as-bar .dot.active{ transform:scale(1.05); background:var(--accent); color:white; font-weight:700; }
+
+    /* small caption overlay bottom-left */
+    .as-caption {
+      position:absolute; left:48px; bottom:18px; z-index:50; color:#fff; display:flex;gap:12px;align-items:center;
+    }
+    .as-caption .icon {
+      width:44px;height:44px;border-radius:999px;background:rgba(255,255,255,0.95);display:grid;place-items:center;color:#111;
+      box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    }
+    .as-caption .txt { color:rgba(255,255,255,0.95); font-weight:700; font-family: 'Orbitron',sans-serif; font-size:15px; text-shadow:0 6px 18px rgba(0,0,0,0.45) }
+
+    /* responsive */
+    @media (max-width: 1100px){
+      .as-slider { flex-direction:column; gap:18px; align-items:flex-start; padding:18px; min-height:520px }
+      .as-changing { width:100%; order:1; padding:10px 0 }
+      .as-side-slider { width:100%; order:2; display:flex; justify-content:center; }
+      .as-side-slider .stack { width:95%; }
+      .as-side-slider .card{ position:relative; left:auto; transform:none; width:100%; height:260px; margin-bottom:12px; border-radius:16px }
+      .as-side-slider .card.card-0, .as-side-slider .card.card-1, .as-side-slider .card.card-2, .as-side-slider .card.card-3 { opacity:1; transform:none; z-index:10; width:100% }
+      .as-nav { right: 8px; top:auto; bottom:10px; flex-direction:row }
+      .as-bar { left:8px; top: unset; bottom: 10px; transform:none; flex-direction:row }
+    }
+
+    /* small utilities for aesthetic */
+    .kicker { font-family:'Orbitron',sans-serif; color:var(--gold); font-weight:800; letter-spacing:1px; font-size:14px }
+    .hero-cta { display:inline-flex; gap:12px; margin-top:14px }
+    .btn-ghost { padding:10px 16px;border-radius:999px;border:1px solid rgba(10,20,30,0.06); background:rgba(255,255,255,0.9) }
+    .btn-primary { padding:10px 20px;border-radius:999px;background:linear-gradient(90deg,#00b3ff,#0077ff); color:#fff; font-weight:700; box-shadow:0 10px 30px rgba(0,123,255,0.12) }
+  </style>
+
+<style>/* ===== PREORDER POPUP STYLES ===== */
+.preorder-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 85%;
+  max-width: 900px;
+  height: 85vh;
+  border-radius: 40px;
+  overflow: hidden;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s ease;
+  box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+}
+
+.preorder-popup.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Background Video */
+.popup-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+  z-index: 0;
+}
+
+/* Optional dark overlay for contrast */
+.popup-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1;
+}
+
+/* Content */
+.popup-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 700px;
+}
+
+.popup-content h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.popup-content h1 span {
+  background: linear-gradient(90deg, #a8792d, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.offer-text {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.btn.solid-btn {
+  background: linear-gradient(90deg, #a8792d, #d4af37);
+  color: #fff;
+  font-weight: 500;
+  padding: 12px 40px;
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 5px 15px rgba(212,175,55,0.3);
+  transition: transform 0.3s ease;
+}
+
+.btn.solid-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Terms */
+.terms {
+  font-size: 0.85rem;
+  margin-top: 30px;
+  opacity: 0.75;
+  line-height: 1.6;
+}
+
+/* Close button */
+.close-popup {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  z-index: 3;
+  transition: transform 0.3s ease;
+}
+
+.close-popup:hover {
+  transform: scale(1.1);
+}
+
+/* Keyframes */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .preorder-popup {
+    width: 92%;
+    height: 80vh;
+    border-radius: 25px;
+  }
+  .popup-content h1 { font-size: 1.8rem; }
+  .offer-text { font-size: 1rem; }
+}
+</style>
+<style>.cart-icon {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.cart-icon i {
+  font-size: 24px;
+  color: #000;
+}
+
+#cartCount {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: linear-gradient(90deg, #a8792d, #d4af37);
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 7px;
+  font-size: 12px;
+  font-weight: 600;
+}
+</style>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ivory: #faf6ef;
+  --accent: #00b3ff;
+  --gold: #d4af37;
+  --text: #111;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--ivory);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* -------- SECTION -------- */
+.section-health {
+  padding: 70px 0;
+  text-align: center;
+  background: var(--ivory);
+}
+.section-health h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 50px;
+}
+.section-health span {
+  color: var(--gold);
+}
+
+/* -------- CARD ROW (HORIZONTAL LAYOUT) -------- */
+.card-row {
+  display: flex;
+  gap: 40px;
+  justify-content: flex-start;
+  padding: 0 60px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.card-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* -------- HEALTH CARD -------- */
+.health-card {
+  position: relative;
+  width: 280px;
+  height: 380px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 35px rgba(0,0,0,0.1);
+  background: #fff;
+  perspective: 900px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transform-style: preserve-3d;
+}
+.health-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,rgba(255,255,255,0.45),rgba(255,255,255,0.25));
+  z-index: 2;
+}
+.health-card > div {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  transition: transform 0.8s ease;
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+}
+
+/* -------- CARD FRONT -------- */
+.card-front {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 40px 20px;
+  z-index: 3;
+}
+.card-front h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  text-shadow: 0 1px 2px rgba(255,255,255,0.7);
+}
+.card-front .value {
+  font-size: 34px;
+  font-weight: 700;
+  margin-top: 8px;
+  color: var(--accent);
+}
+.card-front p {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* -------- CARD BACK -------- */
+.card-back {
+  background: rgba(255,255,255,0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 30px;
+  transform: rotateX(-90deg);
+  box-shadow: inset 0 3px 10px rgba(0,0,0,0.08);
+}
+.health-card.active .card-front {
+  transform: rotateX(-90deg);
+}
+.health-card.active .card-back {
+  transform: rotateX(0deg);
+  z-index: 4;
+  animation: popUp 0.6s ease forwards;
+}
+@keyframes popUp {
+  from { transform: rotateX(-90deg) translateY(50px); opacity: 0; }
+  to { transform: rotateX(0deg) translateY(0); opacity: 1; }
+}
+
+/* -------- CHART -------- */
+.chart {
+  width: 90%;
+  height: 180px;
+  margin-top: 20px;
+  position: relative;
+}
+.chart svg {
+  width: 100%;
+  height: 100%;
+}
+.chart path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: drawLine 2s ease forwards;
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+.numbers {
+  position: absolute;
+  bottom: 8px;
+  left: 5%;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(0,0,0,0.3);
+  font-weight: 600;
+}
+.days {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: #555;
+}
+
+/* -------- RESPONSIVE -------- */
+@media (max-width: 900px) {
+  .card-row {
+    gap: 25px;
+    padding: 0 20px;
+  }
+  .health-card {
+    width: 250px;
+    height: 340px;
+  }
+}
+</style>
+<style>@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.hux-header {
+  position: relative;
+  z-index: 5;
+  margin-bottom: 5rem; /* spacing before slider section */
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.animate-fadeInUp-delay {
+  animation: fadeInUp 1.5s ease-out 0.6s forwards;
+}
+
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+</style>
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <!-- Progress bar -->
+    <div class="fixed top-0 left-0 w-full h-1 z-50 pointer-events-none">
+      <div id="progress" class="h-full bg-gradient-to-r from-teal-400 to-blue-500 opacity-80 w-0"></div>
+    </div>
+
+   <!-- Navbar -->
+<header class="fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl z-40">
+  <nav class="backdrop-blur-md bg-white/40 border border-white/20 shadow-lg rounded-2xl py-3 px-6 grid grid-cols-3 items-center">
+    
+    <!-- Left Navigation -->
+    <div class="flex gap-8">
+      <a href="#ring" class="transition hover:text-red-600">HUX Ring</a>
+      <a href="#features" class="transition hover:text-red-600">Features</a>
+    </div>
+    
+    <!-- Logo -->
+    <div class="flex justify-center">
+      <img src="assets/images/logo.png" 
+           alt="HUX Logo" 
+           class="h-10 w-auto transition duration-300 hover:drop-shadow-[0_0_10px_white]">
+    </div>
+    
+    <!-- Right Navigation -->
+    <div class="flex gap-8 justify-end items-center">
+      <a href="#about" class="transition hover:text-red-600">About</a>
+      <a href="#order" class="transition hover:text-red-600">Contact Us</a>
+      <button class="p-2 rounded-lg bg-white/30 hover:scale-110 transition">
+        <!-- Cart Icon in Nav -->
+<div class="cart-icon">
+  <i class="bx bx-shopping-bag"></i>
+  <span id="cartCount">0</span>
+</div>
+
+      </button>
+    </div>
+    
+  </nav>
+</header>
+
+
+    <main class="pt-28">
+    <!-- HERO WRAPPER -->
+  <section class="hero-wrap">
+    <div class="as-slider" id="heroSlider" data-settings='{"background_slideshow_gallery":[{"url":"assets/images/hero-bg-1.jpg"},{"url":"assets/images/hero-bg-2.jpg"},{"url":"assets/images/hero-bg-3.jpg"},{"url":"assets/images/hero-bg-4.jpg"}]}'>
+      <!-- left: changing text -->
+      <div class="as-changing">
+        <div class="as-changing-widget">
+          <div class="elementor-widget" data-index="0">
+            <div style="max-width:420px;">
+              <div class="kicker">HUX NEXus</div>
+              <h2 style="font-size:28px; margin:8px 0 10px; font-weight:900">Precision Sensors — Clinical-grade accuracy</h2>
+              <p style="color:rgba(0,0,0,0.6)">HRV, SpO₂ and temperature sensing with clinical-grade sampling and battery-aware algorithms.</p>
+              <div class="hero-cta">
+                <a href="#features" class="btn-primary">Explore Features</a>
+                <a href="#order" class="btn-ghost">Pre-order</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="elementor-widget" data-index="1">
+            <div style="max-width:420px;">
+              <div class="kicker">HUX AI</div>
+              <h2 style="font-size:28px; margin:8px 0 10px; font-weight:900">AI Wellness Insights — Personal coach</h2>
+              <p style="color:rgba(0,0,0,0.6)">Context-aware suggestions that adapt to your lifestyle and activity patterns.</p>
+              <div class="hero-cta">
+                <a href="#features" class="btn-primary">Learn How</a>
+                <a href="#order" class="btn-ghost">Pre-order</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="elementor-widget" data-index="2">
+            <div style="max-width:420px;">
+              <div class="kicker">HUX Recovery</div>
+              <h2 style="font-size:28px; margin:8px 0 10px; font-weight:900">Recovery Tracking — Optimize rest</h2>
+              <p style="color:rgba(0,0,0,0.6)">Used by athletes and busy professionals to measure strain, recovery and readiness.</p>
+              <div class="hero-cta">
+                <a href="#features" class="btn-primary">See Metrics</a>
+                <a href="#order" class="btn-ghost">Pre-order</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="elementor-widget" data-index="3">
+            <div style="max-width:420px;">
+              <div class="kicker">HUX Design</div>
+              <h2 style="font-size:28px; margin:8px 0 10px; font-weight:900">Luxury Design — Minimal. Futuristic.</h2>
+              <p style="color:rgba(0,0,0,0.6)">Titanium build with liquid-glass finish — designed to be worn and not noticed.</p>
+              <div class="hero-cta">
+                <a href="#features" class="btn-primary">View Materials</a>
+                <a href="#order" class="btn-ghost">Pre-order</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- bar dots left -->
+      <div class="as-bar"></div>
+
+      <!-- right: stack of vertical cards -->
+      <div class="as-side-slider">
+        <div class="stack">
+          <div class="card card-0" data-index="0" style="background-image:url('assets/images/card-1.png'); background-size:cover;">
+            <div style="z-index:2;color:#fff">
+              <div class="card-label">Precision Sensors</div>
+              <div class="card-sub">HRV • SpO₂ • Temp</div>
+            </div>
+          </div>
+
+          <div class="card card-1" data-index="1" style="background-image:url('assets/images/card-2.jpg'); background-size:cover;">
+            <div style="z-index:2;color:#fff">
+              <div class="card-label">AI Wellness Insights</div>
+              <div class="card-sub">Personalized recommendations</div>
+            </div>
+          </div>
+
+          <div class="card card-2 active" data-index="2" style="background-image:url('assets/images/card-3.jpg'); background-size:cover;">
+            <div style="z-index:2;color:#fff">
+              <div class="card-label">Recovery Tracking</div>
+              <div class="card-sub">Strain • Readiness</div>
+            </div>
+          </div>
+
+          <div class="card card-3" data-index="3" style="background-image:url('assets/images/card-4.png'); background-size:cover;">
+            <div style="z-index:2;color:#fff">
+              <div class="card-label">Luxury Design</div>
+              <div class="card-sub">Titanium & Liquid-glass</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- caption bottom-left (on cards) -->
+        <div class="as-caption">
+          <div class="icon"><i class="bx bx-cog"></i></div>
+          <div class="txt">Precision Sensors</div>
+        </div>
+      </div>
+
+      <!-- arrows -->
+      <div class="as-nav" aria-hidden="false">
+        <button id="prevBtn"><i class="bx bx-chevron-left"></i></button>
+        <button id="nextBtn"><i class="bx bx-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Prepare slides data (used for backgrounds / syncing)
+    const $slider = $('#heroSlider');
+
+    // If data-settings contains background images, build the as-slider-background.
+    (function buildBackgrounds(){
+      let settings = $slider.attr('data-settings') ? JSON.parse($slider.attr('data-settings')) : null;
+      let gallery = settings && settings.background_slideshow_gallery ? settings.background_slideshow_gallery : null;
+      let bgHtml = '<div class="as-slider-background">';
+      if(gallery && gallery.length){
+        gallery.forEach((i) => bgHtml += `<img src="${i.url}" alt="bg" />`);
+      } else {
+        // fallback backgrounds (plain gradients/placeholder)
+        bgHtml += `<img src="assets/images/hero-bg-1.png" alt="">`;
+        bgHtml += `<img src="assets/images/hero-bg-2.jpg" alt="">`;
+        bgHtml += `<img src="assets/images/hero-bg-3.jpg" alt="">`;
+        bgHtml += `<img src="assets/images/hero-bg-4.jpg" alt="">`;
+      }
+      bgHtml += '</div>';
+      $slider.prepend(bgHtml);
+    })();
+
+    $(function(){
+      const $as = $('.as-slider');
+      const $widgets = $as.find('.elementor-widget');
+      const $cards = $as.find('.as-side-slider .card');
+      const $bgs = $as.find('.as-slider-background img');
+      const $bar = $as.find('.as-bar');
+      const slideCount = $cards.length;
+      let current = 2; // start (active center card index)
+      let prev = (current - 1 + slideCount) % slideCount;
+      let timer = null;
+
+      // build dots
+      let dotsHtml = '';
+      for(let i=0;i<slideCount;i++){
+        dotsHtml += `<div class="dot" data-index="${i}">${i+1}</div>`;
+      }
+      $bar.html(dotsHtml);
+      $bar.find('.dot').eq(current).addClass('active');
+
+      // set initial widget classes and heights
+      $widgets.each(function(i){
+        if(i === current) $(this).addClass('currentUp');
+        else if(i < current) $(this).addClass('prev');
+        else $(this).addClass('next');
+      });
+      // set initial bg
+      $bgs.removeClass('currentForward currentBackward prev').eq(current).addClass('currentForward');
+
+      // show loaded state
+      setTimeout(()=>{ $as.addClass('loaded'); }, 260);
+
+      function goto(index, directionOverride){
+        if(index === current) return;
+        const forward = (typeof directionOverride !== 'undefined') ? directionOverride : (index > current || (current === slideCount-1 && index === 0));
+        const prevIndex = current;
+        current = index;
+
+        // widgets management
+        const widgetsWrapper = $as.find('.as-changing-widget');
+        widgetsWrapper.each(function(){
+          const texts = $(this).find('.elementor-widget');
+          $(this).css('--h', texts.eq(current).height() + 'px');
+
+          texts.removeClass('prev next currentUp currentDown');
+          $bgs.removeClass('prev currentBackward currentForward');
+          $bgs.eq(prevIndex).addClass('prev');
+
+          if(forward){
+            texts.eq(prevIndex).addClass('prev');
+            texts.eq(current).addClass('currentUp');
+            $bgs.eq(current).addClass('currentForward');
+          } else {
+            texts.eq(prevIndex).addClass('next');
+            texts.eq(current).addClass('currentDown');
+            $bgs.eq(current).addClass('currentBackward');
+          }
+        });
+
+        // cards: update active class & position emphasis
+        $cards.removeClass('active');
+        $cards.each(function(){
+          const idx = parseInt($(this).attr('data-index'));
+          $(this).removeClass('pos-left pos-mid pos-right');
+        });
+        // compute new visible layout (centered on current)
+        // We'll rotate classes to simulate the overlapping stack
+        $cards.eq((current + slideCount - 2)%slideCount).addClass('card-0');
+        $cards.eq((current + slideCount - 1)%slideCount).addClass('card-1');
+        $cards.eq(current).addClass('card-2 active');
+        $cards.eq((current + 1)%slideCount).addClass('card-3');
+
+        // ensure DOM order matches classes (not strictly necessary but helps)
+        $cards.removeClass('card-0 card-1 card-2 card-3');
+        $cards.eq((current + slideCount - 2)%slideCount).addClass('card-0');
+        $cards.eq((current + slideCount - 1)%slideCount).addClass('card-1');
+        $cards.eq(current).addClass('card-2 active');
+        $cards.eq((current + 1)%slideCount).addClass('card-3');
+
+        // caption text change
+        const currentLabel = $cards.eq(current).find('.card-label').text();
+        $as.find('.as-caption .txt').text(currentLabel);
+
+        // background z-index / classes handled above
+
+        // update dots
+        $bar.find('.dot').removeClass('active').eq(current).addClass('active');
+        prev = prevIndex;
+      }
+
+      // click handlers
+      $bar.on('click', '.dot', function(){
+        const idx = parseInt($(this).attr('data-index'));
+        goto(idx);
+        resetAuto();
+      });
+
+      // card click: go to that slide
+      $cards.on('click', function(){ goto(parseInt($(this).attr('data-index'))); resetAuto(); });
+
+      // arrows
+      $('#prevBtn').on('click', function(){ goto((current - 1 + slideCount) % slideCount, false); resetAuto(); });
+      $('#nextBtn').on('click', function(){ goto((current + 1) % slideCount, true); resetAuto(); });
+
+      // auto-advance
+      function startAuto(){ timer = setInterval(()=> { goto((current + 1) % slideCount, true); }, 4500); }
+      function stopAuto(){ if(timer) clearInterval(timer); timer = null; }
+      function resetAuto(){ stopAuto(); startAuto(); }
+
+      // start
+      startAuto();
+
+      // keyboard nav
+      $(document).on('keydown', function(e){
+        if(e.key === 'ArrowLeft') { goto((current - 1 + slideCount) % slideCount, false); resetAuto(); }
+        if(e.key === 'ArrowRight') { goto((current + 1) % slideCount, true); resetAuto(); }
+      });
+
+      // ensure correct sizing when images load
+      $bgs.on('load', function(){ $as.addClass('loaded'); });
+
+      // expose goto for dev console if needed
+      window.heroGoto = goto;
+    });
+  </script>
+
+    <!-- Features Section -->
+<!-- FEATURES SECTION -->
+<section id="features">
+  <!-- Elegant Header -->
+  <div class="text-center mb-12">
+    <div class="flex items-center justify-center gap-3 mb-3">
+      
+      <h2 class="text-4xl md:text-5xl font-extrabold italic bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 bg-clip-text text-transparent tracking-wide drop-shadow-md">
+        Discover the Power Within
+      </h2>
+    </div>
+    <p class="text-lg md:text-xl italic text-gray-700 font-semibold max-w-3xl mx-auto leading-relaxed">
+      Explore the intelligent <span class="font-bold text-black">features</span> of your 
+      <span class="text-indigo-600 font-extrabold tracking-wide">HUX Smart Ring</span> — 
+      where innovation meets emotion, and technology feels human.
+    </p>
+    <div class="mt-4 flex justify-center">
+      <div class="w-28 h-1 bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600 rounded-full animate-pulse"></div>
+    </div>
+  </div>
+  <!-- Features Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+
+    <!-- Card 1 -->
+    <div onclick="expandFeature('sleep')" 
+         class="relative rounded-3xl overflow-hidden shadow-xl cursor-pointer group">
+      <img src="assets/images/sleep.jpg" 
+           class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+      <div class="absolute bottom-6 left-6 right-6 text-white">
+        <h3 class="text-2xl font-bold">Track Your Sleep for Better Rest</h3>
+        <p class="text-sm mt-2 text-gray-200">
+          Monitors your sleep cycles, including light, REM, and deep sleep.
+        </p>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div onclick="expandFeature('ai')" 
+         class="relative rounded-3xl overflow-hidden shadow-xl cursor-pointer group">
+      <img src="assets/images/HRV.jpg" 
+           alt="AI Assistant" 
+           class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+      <div class="absolute bottom-6 left-6 right-6 text-white">
+        <h3 class="text-2xl font-bold">Semantic Workouts</h3>
+        <p class="text-sm mt-2 text-gray-200">
+          Your personal coach that provides context-aware health insights.
+        </p>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div onclick="expandFeature('unity')" 
+         class="relative rounded-3xl overflow-hidden shadow-xl cursor-pointer group md:col-span-2">
+      <img src="assets/images/unity.png" 
+           alt="Unity Score" 
+           class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+      <div class="absolute bottom-6 left-6 right-6 text-white">
+        <h3 class="text-2xl font-bold">UnityScore by HUX</h3>
+        <p class="text-sm mt-2 text-gray-200">
+          Unifies all your wellness metrics into one intelligent, actionable score.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expanded Modal -->
+  <div id="expanded-feature" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xl p-6">
+    <div class="relative max-w-4xl w-full rounded-3xl bg-white/10 backdrop-blur-2xl shadow-2xl overflow-hidden text-white">
+      
+      <!-- Close Button -->
+      <button onclick="closeFeature()" 
+              class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/30 text-black text-xl font-bold hover:scale-110 transition">
+        ×
+      </button>
+
+      <!-- Content -->
+      <div id="expanded-content" class="p-8">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+
+<script>
+  const features = {
+    sleep: {
+      title: "Track Your Sleep for Better Rest",
+      desc: "The HUX ring monitors your sleep cycles, including light, REM, and deep sleep. Wake up refreshed with insights that help you improve rest.",
+      image: "assets/images/sleep.png"
+    },
+    ai: {
+      title: "Semantic AI Assistant",
+      desc: "Your personal AI health coach that understands context and provides intelligent recommendations for better fitness, stress, and lifestyle.",
+      image: "assets/images/bg1.png"
+    },
+    unity: {
+      title: "UnityScore by CarePlix",
+      desc: "A revolutionary algorithm that unifies heart rate, skin response, sleep, and stress into one powerful score that’s easy to understand.",
+      image: "assets/images/hero-bg-2.jpg"
+    }
+  };
+
+  function expandFeature(key) {
+    const data = features[key];
+    const container = document.getElementById("expanded-content");
+    container.innerHTML = `
+      <img src="${data.image}" class="w-full h-64 object-cover rounded-2xl mb-6" />
+      <h3 class="text-3xl font-bold mb-4">${data.title}</h3>
+      <p class="text-lg">${data.desc}</p>
+    `;
+    document.getElementById("expanded-feature").classList.remove("hidden");
+  }
+
+  function closeFeature() {
+    document.getElementById("expanded-feature").classList.add("hidden");
+  }
+</script>
+</section>
+
+<!-- HUX NEXus Smart Ring Section -->
+<section id="nexus" class="relative w-full overflow-hidden text-white my-24 rounded-[40px] shadow-2xl mx-auto max-w-[95%] md:max-w-[90%] bg-[#f5f5f0]">
+
+  <!-- Section Heading -->
+  <div class="text-center py-16 px-6">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-wide mb-3">
+      Introducing the <span class="text-teal-500 italic">Next-Gen</span> Smart Ring
+    </h2>
+    <p class="text-gray-600 italic text-lg max-w-2xl mx-auto leading-relaxed">
+      Redefining health, elegance, and intelligence — the 
+      <span class="font-semibold text-teal-600">HUX NEXus</span> merges technology with human emotion.
+    </p>
+    <div class="mt-4 flex justify-center">
+      <div class="w-24 h-1 bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 rounded-full animate-pulse"></div>
+    </div>
+  </div>
+
+  <!-- Video Section -->
+  <div class="relative w-full h-[90vh] overflow-hidden rounded-[40px] shadow-xl">
+    <!-- Background Video -->
+    <video class="absolute inset-0 w-full h-full object-cover rounded-[40px]" autoplay muted loop playsinline>
+      <source src="assets/images/bgvideo.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Transparent Overlay Texture -->
+    <div class="absolute inset-0 bg-center bg-cover opacity-40 rounded-[40px]"
+         style="background-image: url('assets/images/overlay-texture.jpg');">
+    </div>
+
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70 rounded-[40px]"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
+      <h2 class="text-5xl md:text-7xl font-extrabold drop-shadow-xl mb-4">
+        Meet the <span class="text-teal-400">HUX NEXus</span> Smart Ring
+      </h2>
+
+      <p class="max-w-3xl text-lg md:text-xl text-gray-200 leading-relaxed">
+        The next evolution of wearable technology — blending precision health tracking, futuristic design,
+        and seamless daily integration.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="#order" class="px-8 py-3 rounded-full bg-teal-500/80 backdrop-blur-md font-semibold text-white hover:scale-105 hover:bg-teal-500 transition-all duration-300 shadow-md">
+          Pre-Order Now
+        </a>
+        <a href="#features" class="px-8 py-3 rounded-full border border-white/40 bg-white/10 backdrop-blur-md font-semibold text-white hover:bg-white/20 hover:scale-105 transition-all duration-300">
+          Explore Specs
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ✨ Minimal Modern HUX-NEXus Section -->
+<section class="hux-header text-center py-20 bg-[#f9fafb] relative overflow-hidden">
+
+  <!-- Soft Gradient Glow -->
+  <div class="absolute inset-0 bg-gradient-to-r from-[#00bcd4]/10 via-[#3f51b5]/10 to-[#9c27b0]/10 blur-2xl"></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto px-6">
+
+    <!-- Title -->
+    <h2 class="text-5xl md:text-6xl font-semibold tracking-tight bg-gradient-to-r from-[#00e0ff] via-[#0077ff] to-[#7a00ff] bg-clip-text text-transparent animate-[fadeInUp_1s_ease-out]">
+      HUX-NEXus
+    </h2>
+
+    <!-- Subline -->
+    <p class="mt-3 text-gray-600 text-base md:text-lg font-light leading-relaxed animate-[fadeInUp_1.4s_ease-out]">
+      Experience the next evolution in smart rings — where innovation meets emotion.
+    </p>
+
+  </div>
+
+  <!-- Key Animations -->
+  <style>
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-\[fadeInUp_1s_ease-out\] {
+      animation: fadeInUp 1s ease-out forwards;
+    }
+
+    .animate-\[fadeInUp_1\.4s_ease-out\] {
+      animation: fadeInUp 1.4s ease-out forwards;
+    }
+  </style>
+
+</section>
+
+
+<!-- 🚀 HUX Sliding Section -->
+<section id="hux-sliding-section">
+  <main class="slider-container">
+    
+    <!-- Slide 1 -->
+    <section class="slide" style="background-image: url('assets/images/bg1.png');">
+      <div class="overlay"></div>
+      <div class="content left">
+        <h1>Track Your Wellness Journey</h1>
+        <p>It adapts to you, moves with you, and tracks your performance effortlessly.</p>
+      </div>
+      <div class="stats-cluster right">
+        <div class="stat-card" style="background-image:url('assets/images/running.jpg');">
+          <strong>Running</strong><br>1.2 Km
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/calories.jpg');">
+          <strong>Calories</strong><br>286 kcal
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/heart.jpg');">
+          <strong>Heart Rate</strong><br>120 bpm
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/strain.jpg');">
+          <strong>Strain</strong><br>70
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide" style="background-image: url('assets/images/bg2.png');">
+      <div class="overlay"></div>
+      <div class="stats-cluster left">
+        <div class="stat-card" style="background-image:url('assets/images/ecg.jpg');">
+          <strong>ECG</strong><br>Normal
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/spo2.jpg');">
+          <strong>SpO2</strong><br>98%
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/hrv.jpg');">
+          <strong>HRV</strong><br>72 ms
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/temp.jpg');">
+          <strong>Temp</strong><br>36.6°C
+        </div>
+      </div>
+      <div class="content right">
+        <h1>Advanced Health Insights</h1>
+        <p>Monitor ECG, SpO2, HRV, and more with clinical-grade accuracy.</p>
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide" style="background-image: url('assets/images/bg3.png');">
+      <div class="overlay"></div>
+      <div class="content left">
+        <h1>Seamless Lifestyle Companion</h1>
+        <p>Stay connected with smart alerts, music control, and more.</p>
+      </div>
+      <div class="stats-cluster right">
+        <div class="stat-card" style="background-image:url('assets/images/alerts.jpg');">
+          <strong>Alerts</strong><br>On
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/music.jpg');">
+          <strong>Music</strong><br>Playing
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/sleep.jpg');">
+          <strong>Sleep</strong><br>7.5 hrs
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/reminder.jpg');">
+          <strong>Reminders</strong><br>3 Active
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide" style="background-image: url('assets/images/bg4.png');">
+      <div class="overlay"></div>
+      <div class="stats-cluster left">
+        <div class="stat-card" style="background-image:url('assets/images/battery.jpg');">
+          <strong>Battery</strong><br>7 Days
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/waterproof.jpg');">
+          <strong>Waterproof</strong><br>50m
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/titanium.jpg');">
+          <strong>Build</strong><br>Titanium
+        </div>
+        <div class="stat-card" style="background-image:url('assets/images/style.jpg');">
+          <strong>Style</strong><br>Premium
+        </div>
+      </div>
+      <div class="content right">
+        <h1>Next-Gen Design</h1>
+        <p>Liquid-glass inspired, ultra-light titanium build with luxury finish.</p>
+      </div>
+    </section>
+
+  </main>
+</section>
+
+<style>
+/* Global Reset */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  background: #ffffff;
+  color: #000;
+}
+
+/* Section Header */
+.hux-header {
+  text-align: center;
+  padding: 80px 20px 40px;
+  background: #fff;
+}
+.hux-header h2 {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #000;
+  margin-bottom: 10px;
+}
+.hux-header p {
+  font-size: 1.2rem;
+  color: #444;
+}
+
+/* Main Section */
+#hux-sliding-section {
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 40px 0;
+}
+
+/* Slider Container */
+.slider-container {
+  width: 80%;
+  height: 80vh;
+  border-radius: 30px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+}
+.slider-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual Slides */
+.slide {
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  scroll-snap-align: start;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 30px;
+  padding: 0 6%;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.3);
+  border-radius: 30px;
+}
+
+.content {
+  position: relative;
+  max-width: 400px;
+  z-index: 2;
+}
+
+.content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 15px;
+}
+
+.content p {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Stats Cluster */
+.stats-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  z-index: 2;
+}
+.stats-cluster.right {
+  justify-content: flex-end;
+}
+
+.stat-card {
+  width: 160px;
+  height: 100px;
+  border-radius: 18px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 500;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  border-radius: 18px;
+}
+.stat-card strong {
+  font-size: 1.1rem;
+  color: #00a6ff;
+  position: relative;
+  z-index: 1;
+}
+.stat-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 35px rgba(0,166,255,0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .slider-container {
+    width: 90%;
+    height: auto;
+  }
+  .slide {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .stats-cluster {
+    justify-content: center;
+  }
+  .stat-card {
+    width: 80%;
+    max-width: 250px;
+  }
+  .content h1 {
+    font-size: 1.8rem;
+  }
+}
+</style>
+
+  </main>
+
+  <style>
+    /* Global Section */
+    #hux-sliding-section {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .slider-container {
+      height: 100vh;
+      width: 100%;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      scrollbar-width: none;
+    }
+    .slider-container::-webkit-scrollbar { display: none; }
+
+    .slide {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      scroll-snap-align: start;
+      background-size: cover;
+      background-position: center;
+      border-radius: 40px;
+      margin: 0 auto;
+      padding: 0 5%;
+      overflow: hidden;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 40px;
+    }
+
+    /* Section Heading */
+    .section-heading {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 5;
+      width: 100%;
+    }
+
+    .headline {
+      font-size: 5rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #00f6ff, #0077ff, #00e0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0px 0px 15px rgba(0, 200, 255, 0.3);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3)); }
+      50% { filter: drop-shadow(0 0 25px rgba(0, 255, 255, 0.7)); }
+    }
+
+    .subhead {
+      font-size: 1.2rem;
+      color: #b5e9ff;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    }
+
+    /* Content Text */
+    .content {
+      position: relative;
+      max-width: 450px;
+      z-index: 2;
+    }
+
+    .content.left { text-align: left; }
+    .content.right { text-align: right; }
+
+    .content h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .content p {
+      font-size: 1.1rem;
+      color: #d0d0d0;
+    }
+
+    /* Stats Cluster */
+    .stats-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      max-width: 420px;
+      z-index: 3;
+    }
+
+    .stats-cluster.right {
+      justify-content: flex-end;
+    }
+
+    .stat-card {
+      width: 180px;
+      height: 110px;
+      border-radius: 18px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      color: white;
+      font-size: 0.9rem;
+      padding: 12px;
+      text-align: left;
+      font-weight: 500;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 18px;
+    }
+
+    .stat-card strong {
+      font-size: 1.1rem;
+      color: #00e6ff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 40px rgba(0, 255, 255, 0.6);
+    }
+  </style>
+</section>
+
+  </main>
+
+  <style>
+    #hux-sliding-section {
+      height: 100vh;
+      width: 100%;
+    }
+
+    .slider-container {
+      height: 100vh;
+      width: 100%;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      scrollbar-width: none;
+    }
+    .slider-container::-webkit-scrollbar { display: none; }
+
+    .slide {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      scroll-snap-align: start;
+      background-size: cover;
+      background-position: center;
+      border-radius: 30px; /* Rounded corners */
+      margin: 20px;
+      overflow: hidden;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      border-radius: 30px;
+    }
+
+    .content {
+      position: relative;
+      color: white;
+      max-width: 500px;
+      padding: 40px;
+      z-index: 2;
+    }
+    .content.left { margin-left: 5%; text-align: left; }
+    .content.right { margin-right: 5%; text-align: right; }
+
+    .content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    .content p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #ddd;
+    }
+
+    /* Stats Cluster */
+    .stats-cluster {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      z-index: 2;
+      max-width: 400px;
+    }
+    .stats-cluster.right { margin-right: 5%; }
+    .stats-cluster.left { margin-left: 5%; }
+
+    .stat-card {
+      position: relative;
+      height: 160px;
+      border-radius: 20px;
+      padding: 20px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      text-shadow: 0px 2px 8px rgba(0,0,0,0.7);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    }
+  </style>
+
+  <script>
+    // Keyboard navigation
+    const slides = document.querySelectorAll('#hux-sliding-section .slide');
+    let currentSlide = 0;
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].scrollIntoView({behavior: "smooth"});
+      } else if (e.key === "ArrowUp") {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        slides[currentSlide].scrollIntoView({behavior: "smooth"});
+      }
+    });
+  </script>
+</section>
+
+<!-- ===== PREORDER POPUP SECTION ===== -->
+<div class="preorder-popup" id="preorderPopup">
+  <video autoplay muted loop playsinline class="popup-bg">
+    <source src="assets/images/hero-bg.mp4" type="video/mp4">
+  </video>
+
+  <div class="popup-overlay"></div>
+
+  <div class="popup-content">
+    <button class="close-popup" id="closePopup">&times;</button>
+    
+    <h1>Pre-Order Now & Get <span>20% Off</span></h1>
+    <p class="offer-text">Experience the next evolution of wearable intelligence — reserve your HUX Smart Ring today.</p>
+
+    <a href="/order" class="btn solid-btn">Pre-Order Now</a>
+
+    <p class="terms">
+      *Delivery within 15–20 business days from date of order confirmation.  
+      Offer valid for limited pre-launch period. Terms apply as per brand policy.
+    </p>
+  </div>
+</div>
+
+
+<!-- 🌌 About Section -->
+<section id="about" 
+         class="relative min-h-screen flex flex-col justify-center items-center text-center overflow-hidden bg-cover bg-center bg-no-repeat rounded-3xl mx-auto max-w-7xl my-20 px-6"
+         style="background-image: url('assets/images/whitebg.png');">
+
+  <!-- Soft Overlay -->
+  <div class="absolute inset-0 bg-white/50 backdrop-blur-sm"></div>
+
+  <div class="relative z-10 w-full">
+    
+    <!-- Title -->
+    <h2 class="text-4xl md:text-6xl font-extrabold mb-10 text-black uppercase tracking-tight leading-tight">
+      Why Choose <span class="text-blue-600">HUX</span> Smart Ring
+    </h2>
+
+    <!-- Features Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 justify-items-center px-4 md:px-10">
+
+      <!-- Feature Card -->
+      <div class="feature-item frosted-card">
+        <div class="icon">
+          <i class="bx bx-package"></i>
+        </div>
+        <h4>Premium Materials</h4>
+        <p>Crafted from stainless steel & luxury finishes for durability and elegance.</p>
+      </div>
+
+      <div class="feature-item frosted-card">
+        <div class="icon">
+          <i class="bx bx-heart"></i>
+        </div>
+        <h4>Clinical-Grade Sensors</h4>
+        <p>Accurate tracking for health, sleep, and fitness with medical precision.</p>
+      </div>
+
+      <div class="feature-item frosted-card">
+        <div class="icon">
+          <i class="bx bx-sync"></i>
+        </div>
+        <h4>Seamless Connectivity</h4>
+        <p>Effortless pairing with Android & iOS via Bluetooth 5.0+ support.</p>
+      </div>
+
+      <div class="feature-item frosted-card">
+        <div class="icon">
+          <i class="bx bx-shield-quarter"></i>
+        </div>
+        <h4>Durable & Waterproof</h4>
+        <p>5ATM waterproofing ensures your ring is safe in all conditions.</p>
+      </div>
+
+      <div class="feature-item frosted-card">
+        <div class="icon">
+          <i class="bx bx-battery"></i>
+        </div>
+        <h4>Long Battery Life</h4>
+        <p>Up to 5 days of continuous use with fast recharging technology.</p>
+      </div>
+
+      <div class="feature-item frosted-card">
+        <div class="icon">
+          <i class="bx bx-gift"></i>
+        </div>
+        <h4>Exclusive Benefits</h4>
+        <p>Unlock exclusive offers and premium support with your HUX membership.</p>
+      </div>
+
+    </div>
+
+    <!-- Button -->
+    <div class="mt-12">
+      <a href="#order"
+         class="inline-block px-8 py-3 border-2 border-black rounded-full font-semibold text-black hover:bg-black hover:text-white transition-all duration-300">
+        Shop HUX Ring →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* === Frosted Card Styling === */
+.feature-item {
+  max-width: 280px;
+  padding: 1.75rem;
+  border-radius: 1rem;
+  transition: all 0.4s ease;
+}
+
+.frosted-card {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.frosted-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* === Icon Styling === */
+.feature-item .icon {
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-item .icon i {
+  font-size: 1.8rem;
+  color: #000;
+}
+
+.feature-item h4 {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: #000;
+}
+
+.feature-item p {
+  color: #333;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+</style>
+
+<!-- 🌟 HUX Product Specifications Section -->
+<section id="hux-specs" class="relative w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-gray-50 to-gray-100 text-black py-16">
+  
+  <!-- Frosted Glass Container -->
+  <div class="max-w-7xl mx-auto px-8 py-12 rounded-3xl bg-white/60 backdrop-blur-md border border-gray-200 shadow-2xl">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-14">
+      <h4 class="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight uppercase">
+        HUX Product Specifications
+      </h4>
+      <p class="text-gray-600 text-lg mt-3">Engineered Precision. Designed for Everyday Brilliance.</p>
+    </div>
+
+    <!-- Three Column Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-center text-gray-800">
+
+      <!-- Left Column -->
+      <div class="space-y-6 text-left">
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Name</h4>
+          <p class="text-lg font-medium">HUX-NEXus Smart Ring</p>
+        </div>
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Features</h4>
+          <p class="text-lg font-medium">Heart Rate, SpO2, Temperature, Sleep, Stress, Activity, Recovery, VO2 Max, Strain</p>
+        </div>
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Sizes</h4>
+          <p class="text-lg font-medium">6, 7, 8, 9, 10, 11, 12, 13</p>
+        </div>
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Colors</h4>
+          <p class="text-lg font-medium">Gunmetal Black, Sterling Gold, Frost Silver, Rose</p>
+        </div>
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Battery</h4>
+          <p class="text-lg font-medium">Rechargeable 25 mAh LiPo — Up to 7 Days</p>
+        </div>
+      </div>
+
+      <!-- Center Column (GIF / Image) -->
+      <div class="flex items-center justify-center">
+        <img src="assets/images/ring-animation.gif" 
+             alt="HUX Ring Animation" 
+             class="w-64 h-64 object-contain hover:scale-105 transition-transform duration-500" />
+      </div>
+
+      <!-- Right Column -->
+      <div class="space-y-6 text-left md:text-right">
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">In the Box</h4>
+          <p class="text-lg font-medium">Ring, USB Cable, Charging Case, Manual</p>
+        </div>
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Certifications</h4>
+          <p class="text-lg font-medium">5ATM, CE, RoHS, FCC, REACH, BIS</p>
+        </div>
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Connectivity</h4>
+          <p class="text-lg font-medium">Bluetooth 5.2, Low Energy</p>
+        </div>
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Water Resistance</h4>
+          <p class="text-lg font-medium">Yes — Up to 50m</p>
+        </div>
+        <div>
+          <h4 class="uppercase text-sm font-semibold text-gray-500">Material</h4>
+          <p class="text-lg font-medium">Titanium Alloy with Liquid Glass Coating</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="text-center mt-16">
+      <h2 class="text-3xl font-bold text-gray-900">Discover What’s Inside</h2>
+      <p class="text-gray-600 text-base mt-1">Crafted to exceed your expectations</p>
+      <button class="mt-6 px-8 py-3 bg-black text-white font-semibold rounded-full shadow-lg hover:bg-gray-800 transition-all duration-300">
+        Buy Now →
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+/* === Responsive Fit & Glass Styling === */
+#hux-specs {
+  scroll-margin-top: 80px;
+}
+#hux-specs .rounded-3xl {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+}
+#hux-specs .rounded-3xl:hover {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+}
+</style>
+
+
+ 
+ <!-- Order Section -->
+<section id="order" class="mt-20 pb-24 px-6">
+ <h2 class="order-heading text-center mb-12">
+  ORDER YOUR <span class="highlight">HUX-NEXus RING</span>
+</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
+    
+    <!-- Silver Card -->
+<div class="product-card silver">
+  <div class="logo-cart">
+    <i class="bx bx-shopping-bag"></i>
+  </div>
+
+  <div class="logo-bg">
+    <img src="assets/images/logo.png" alt="HUX Logo">
+  </div>
+
+  <div class="main-images">
+    <div class="ring-glow silver-glow"></div>
+    <img class="active" src="assets/images/ring-silver.png" alt="silver ring">
+  </div>
+
+  <div class="shoe-details">
+    <span class="shoe_name">HUX Smart Ring</span>
+    <p>Elegant stainless steel silver edition.</p>
+    <div class="stars">
+      <i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i>
+    </div>
+  </div>
+
+  <div class="price">
+    <span class="price_num">INR 17,999/-</span>
+    <span class="price_letter">Seventeen Thousand Nine Hundred and Ninety Nine Only</span>
+  </div>
+
+  <div class="button">
+    <div class="button-layer"></div>
+    <button class="addToCart">Add To Cart</button>
+  </div>
+</div>
+
+
+<!-- Black Card -->
+<div class="product-card black">
+  <!-- Cart Icon -->
+  <div class="logo-cart">
+    <i class="bx bx-shopping-bag"></i>
+  </div>
+
+  <!-- Background Logo -->
+  <div class="logo-bg">
+    <img src="assets/images/logo.png" alt="HUX Logo" class="invert-logo">
+  </div>
+
+  <!-- Ring + Glow -->
+  <div class="main-images">
+    <div class="ring-glow black-glow"></div>
+    <img class="active" src="assets/images/ring-black.png" alt="black ring">
+  </div>
+
+  <!-- Details -->
+  <div class="shoe-details">
+    <span class="shoe_name">HUX Smart Ring</span>
+    <p>Bold matte black premium edition.</p>
+    <div class="stars">
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+    </div>
+  </div>
+
+  <!-- Price -->
+  <div class="price">
+    <span class="price_num">₹18,999</span>
+    <span class="price_letter">Eighteen Thousand Nine Hundred and Ninety Nine only</span>
+  </div>
+
+  <!-- Add to Cart Button -->
+  <div class="button">
+    <div class="button-layer"></div>
+    <button class="addToCart">Add To Cart</button>
+  </div>
+</div>
+
+
+<!-- Gold Card -->
+<div class="product-card gold">
+  <!-- Cart Icon -->
+  <div class="logo-cart">
+    <i class="bx bx-shopping-bag"></i>
+  </div>
+
+  <!-- Background Logo -->
+  <div class="logo-bg">
+    <img src="assets/images/logo.png" alt="HUX Logo">
+  </div>
+
+  <!-- Ring + Glow -->
+  <div class="main-images">
+    <div class="ring-glow gold-glow"></div>
+    <img class="active" src="assets/images/ring-gold.png" alt="gold ring">
+  </div>
+
+  <!-- Product Details -->
+  <div class="shoe-details">
+    <span class="shoe_name">HUX Smart Ring</span>
+    <p>Luxurious gold-plated edition.</p>
+    <div class="stars">
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+    </div>
+  </div>
+
+  <!-- Price -->
+  <div class="price">
+    <span class="price_num">₹20,999</span>
+    <span class="price_letter">Twenty Thousand Nine Hundred and Ninety Nine Only</span>
+  </div>
+
+  <!-- Add to Cart Button -->
+  <div class="button">
+    <div class="button-layer"></div>
+    <button class="addToCart">Add To Cart</button>
+  </div>
+</div>
+
+<!-- Rose Gold Card -->
+<div class="product-card rose">
+  <!-- Cart Icon -->
+  <div class="logo-cart">
+    <i class="bx bx-shopping-bag"></i>
+  </div>
+
+  <!-- Background Logo -->
+  <div class="logo-bg">
+    <img src="assets/images/logo.png" alt="HUX Logo">
+  </div>
+
+  <!-- Ring + Glow -->
+  <div class="main-images">
+    <div class="ring-glow rose-glow"></div>
+    <img class="active" src="assets/images/ring-rose.png" alt="rose gold ring">
+  </div>
+
+  <!-- Product Details -->
+  <div class="shoe-details">
+    <span class="shoe_name">HUX Smart Ring</span>
+    <p>Romantic rose gold edition.</p>
+    <div class="stars">
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+      <i class="bx bxs-star"></i>
+    </div>
+  </div>
+
+  <!-- Price -->
+  <div class="price">
+    <span class="price_num">₹19,999</span>
+    <span class="price_letter">Nineteen Thousand Nine Hundred and Ninety Nine Only</span>
+  </div>
+
+  <!-- Add to Cart Button -->
+  <div class="button">
+    <div class="button-layer"></div>
+    <button class="addToCart">Add To Cart</button>
+  </div>
+</div>
+
+<style>
+.product-card {
+  position: relative;
+  width: 360px; height: 600px;
+  border-radius: 30px; overflow: hidden;
+  color: #333; padding: 25px;
+  text-align: center;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+.product-card:hover { transform: translateY(-12px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
+
+/* Card color themes */
+.product-card.silver {
+  background: 
+    linear-gradient(145deg, #f0f0f0, #cfcfcf),
+    url("assets/textures/noise.png");  /* <-- Add your texture file here */
+  background-size: cover;
+  background-blend-mode: overlay;
+}
+.product-card.black  { background: linear-gradient(145deg,#1a1a1a,#444); color:#fff; }
+.product-card.gold   { background: linear-gradient(145deg,#f6e27a,#d4af37); }
+.product-card.rose   { background: linear-gradient(145deg,#f7d1d1,#e6b0aa); }
+
+/* Cart */
+.logo-cart { display:flex; justify-content:flex-end; z-index:5; }
+.logo-cart i { font-size:24px; cursor:pointer; }
+
+/* Background logo */
+.logo-bg { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:0; opacity:.12; }
+.logo-bg img { width:260px; height:auto; filter:brightness(0); }
+.invert-logo { filter:brightness(0) invert(1); }
+
+/* Glow */
+.ring-glow { position:absolute; top:50%; left:50%; width:200px; height:200px; border-radius:50%; transform:translate(-50%,-50%); filter:blur(30px); z-index:1; }
+.silver-glow { background:radial-gradient(circle,rgba(255,255,255,0.6),transparent 70%); }
+.black-glow  { background:radial-gradient(circle,rgba(0,0,0,0.7),transparent 70%); }
+.gold-glow   { background:radial-gradient(circle,rgba(255,223,100,0.8),transparent 70%); }
+.rose-glow   { background:radial-gradient(circle,rgba(255,170,170,0.7),transparent 70%); }
+
+/* Main image */
+.main-images { position:relative; flex:1; display:flex; justify-content:center; align-items:center; z-index:2; }
+.main-images img { width:220px; transition: transform .5s ease; z-index:3; }
+.product-card:hover .main-images img { transform:scale(1.05) rotate(-2deg); }
+
+/* Details */
+.shoe-details { margin-top:10px; }
+.shoe-details .shoe_name { font-size:22px; font-weight:600; }
+.shoe-details p { font-size:14px; }
+.stars i { color:gold; }
+
+/* Price */
+.price_num { font-size:20px; font-weight:600; display:block; }
+.price_letter { font-size:12px; color:#555; }
+
+/* Button */
+.button { position:relative; height:50px; margin-top:20px; }
+.button button { width:100%; height:100%; border:none; border-radius:25px; font-size:16px; font-weight:600; background:transparent; color:#fff; cursor:pointer; z-index:2; position:relative; }
+.button-layer { position:absolute; inset:0; background:linear-gradient(135deg,#06b6d4,#3b82f6); border-radius:25px; transform:scaleX(0); transform-origin:left; transition:transform .4s ease; z-index:1; }
+.button:hover .button-layer { transform:scaleX(1); }
+</style>
+
+</section>
+
+<!-- Styles -->
+<style>
+  .product-card {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: 540px;
+    border-radius: 30px;
+    overflow: hidden;
+    color: #333;
+    transition: background 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+  }
+
+  /* Gradient backgrounds */
+  .product-card.silver { background: linear-gradient(135deg, #d6d6d6, #f5f5f5); }
+  .product-card.black { background: linear-gradient(135deg, #222, #555); color: #fff; }
+  .product-card.gold { background: linear-gradient(135deg, #e0c068, #f9e79f); }
+  .product-card.rose { background: linear-gradient(135deg, #e6b0aa, #f5c6d6); }
+
+  .logo-cart { display: flex; justify-content: space-between; align-items: center; }
+  .logo-cart img { width: 40px; }
+  .logo-cart i { font-size: 24px; cursor: pointer; }
+
+  .main-images { flex: 1; display: flex; justify-content: center; align-items: center; }
+  .main-images img { width: 200px; }
+
+  .shoe-details .shoe_name { display: block; font-size: 20px; font-weight: 700; margin: 10px 0; }
+  .shoe-details p { font-size: 14px; }
+
+  .stars i { color: gold; }
+
+  .price { margin-top: 10px; }
+  .price_num { display: block; font-size: 18px; font-weight: 600; }
+  .price_letter { font-size: 12px; color: #444; }
+.price_letter {
+  color: #7fd3ff;
+  opacity: 0.9;
+}
+
+
+  /* Button */
+  .button { position: relative; height: 45px; margin-top: auto; }
+  .button button {
+    width: 100%; height: 100%;
+    border: none; border-radius: 25px;
+    font-size: 14px; font-weight: 600;
+    background: transparent; color: #fff;
+    cursor: pointer; z-index: 2; position: relative;
+  }
+  .button-layer {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    border-radius: 25px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: 1;
+  }
+  .button:hover .button-layer { transform: scaleX(1); }
+</style>
+
+    </main>
+
+   
+
+    <script>
+      // Progress bar
+      window.addEventListener('scroll', () => {
+        const doc = document.documentElement;
+        const scrolled = doc.scrollTop || document.body.scrollTop;
+        const height = doc.scrollHeight - doc.clientHeight;
+        const pct = height ? (scrolled / height) * 100 : 0;
+        document.getElementById('progress').style.width = pct + '%';
+      });
+
+      // Feature switcher
+      const features = {
+        heart: {
+          title: "Heart Rate & Fitness",
+          desc: "Continuous heart-rate monitoring with adaptive sampling for battery efficiency."
+        },
+        sleep: {
+          title: "Sleep Tracking",
+          desc: "Advanced sleep stage recognition with smart suggestions to improve rest."
+        },
+        pay: {
+          title: "Contactless Payments",
+          desc: "Secure tokenized payments with biometric confirmation — quick and private."
+        }
+      };
+      function showFeature(key) {
+        document.getElementById('feature-title').textContent = features[key].title;
+        document.getElementById('feature-desc').textContent = features[key].desc;
+      }
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+<style>
+/* Full-width Bold Heading */
+.order-heading {
+  font-size: 5rem;            /* Bigger font */
+  font-weight: 900;           /* Extra bold */
+  text-transform: uppercase;  /* All caps */
+  color: #111;                /* Dark color */
+  letter-spacing: 5px;        /* Spaced letters */
+  line-height: 1.1;           /* Compact line height */
+  width: 100%;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Highlighted part */
+.order-heading .highlight {
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #8f00ff
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: rainbowMove 4s linear infinite;
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Responsive font size */
+@media (max-width: 768px) {
+  .order-heading {
+    font-size: 3rem;
+    letter-spacing: 2px;
+  }
+}
+</style>
+
+<!-- HUX Reviews -->
+<section class="section-reviews">
+  <h2>Human-<span>Xperience</span></h2>
+  <div class="review-carousel" id="reviewCarousel">
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jaime">
+      <h3>Jaime Vandenberg, 28</h3>
+      <p class="title">Miss World Canada, Contestant 2023</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"I love my HUX ring — stylish, convenient and incredibly accurate. The battery life is fantastic!"</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Revant">
+      <h3>Revant Himmatsinghka, 32</h3>
+      <p class="title">Influencer, Change Maker</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"The best thing about this ring — charge once, lasts for days. Seamless tracking every time."</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Rakesh">
+      <h3>Rakesh Roshan, 74</h3>
+      <p class="title">Film Producer, Actor, Director</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"I track my sleep, HRV, and steps daily. It helps me stay consistent and healthy."</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/women/50.jpg" alt="Bandagee">
+      <h3>Bandagee, 29</h3>
+      <p class="title">Entrepreneur, Creator</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"Perfect for people who dislike bulky trackers — sleek, simple, and empowering!"</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Aarav">
+      <h3>Aarav Shah, 30</h3>
+      <p class="title">Software Engineer</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"Feels futuristic — health insights in such a minimal design. Love it!"</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Meera">
+      <h3>Meera Singh, 26</h3>
+      <p class="title">Content Creator</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"A perfect blend of elegance and utility. I never go a day without it."</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/men/27.jpg" alt="Karan">
+      <h3>Karan Patel, 34</h3>
+      <p class="title">Fitness Coach</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"Stylish enough for my clients to notice and smart enough for me to trust."</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/women/41.jpg" alt="Riya">
+      <h3>Riya Mehta, 29</h3>
+      <p class="title">Marketing Strategist</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"Looks like jewelry, works like tech — truly the next evolution in wearables."</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/men/39.jpg" alt="Vikram">
+      <h3>Vikram Desai, 40</h3>
+      <p class="title">Entrepreneur</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"Now I understand my sleep patterns better — it’s a daily ritual."</p>
+    </div>
+
+    <div class="review-card">
+      <img src="https://randomuser.me/api/portraits/women/38.jpg" alt="Alicia">
+      <h3>Alicia Gomes, 31</h3>
+      <p class="title">Yoga Instructor</p>
+      <i class='bx bxs-quote-alt-left'></i>
+      <p class="quote">"Balances aesthetics and mindfulness — exactly what I wanted."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- STYLES ---------- -->
+<style>
+.section-reviews {
+  background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.6));
+  backdrop-filter: blur(10px);
+  padding: 80px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.section-reviews h2 {
+  font-size: 40px;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 50px;
+  letter-spacing: 1px;
+}
+.section-reviews h2 span {
+  color: #d4af37;
+}
+
+/* Carousel layout */
+.review-carousel {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  padding: 20px 60px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.review-carousel::-webkit-scrollbar { display: none; }
+
+.review-card {
+  min-width: 320px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 30px 25px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  color: #000;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Golden animated border */
+.review-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(90deg, #d4af37, #b8860b, #f4d03f, #d4af37);
+  background-size: 300% 300%;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.review-card:hover::before {
+  opacity: 1;
+  animation: borderMove 2.8s linear infinite;
+}
+
+/* Animate golden line movement */
+@keyframes borderMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hover zoom-out effect */
+.review-card:hover {
+  transform: scale(0.96);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+
+/* Card content */
+.review-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  object-fit: cover;
+  border: 3px solid rgba(0,0,0,0.1);
+}
+
+.review-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin: 5px 0 4px;
+}
+
+.review-card .title {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.review-card i {
+  font-size: 26px;
+  color: #d4af37;
+  margin: 6px 0;
+}
+
+.review-card .quote {
+  font-size: 14px;
+  color: #111;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-reviews h2 { font-size: 28px; }
+  .review-card { min-width: 260px; padding: 25px; }
+}
+</style>
+
+<!-- ---------- SCRIPT ---------- -->
+<script>
+const carousel = document.getElementById("reviewCarousel");
+let scrollTimer;
+
+function startScroll() {
+  scrollTimer = setInterval(() => {
+    if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 5) {
+      carousel.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      carousel.scrollBy({ left: 340, behavior: 'smooth' });
+    }
+  }, 2600);
+}
+
+function stopScroll() {
+  clearInterval(scrollTimer);
+}
+
+carousel.addEventListener('mouseenter', stopScroll);
+carousel.addEventListener('mouseleave', startScroll);
+
+startScroll();
+</script>
+
+<!-- HUX Gallery Section -->
+<section id="hux-gallery" class="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-[#f7f8fb] to-[#e9edf3] text-gray-900 px-6 py-20">
+
+<!-- Section Heading -->
+<div class="text-center max-w-2xl mx-auto mb-10">
+  <h5 class="text-2xl md:text-3xl font-semibold font-[Playfair_Display] tracking-tight text-gray-800 leading-snug">
+    The Future of Wellness in 
+    <span class="text-[#C9A23F] italic font-[Great_Vibes] text-3xl md:text-4xl">
+      :Every Touch:
+    </span>
+  </h5>
+</div>
+
+
+
+
+  <!-- Expanding Cards -->
+  <div class="options flex items-stretch overflow-hidden w-full max-w-6xl h-[480px] rounded-3xl">
+    
+    <!-- CARD 1 -->
+    <div class="option active" style="background-image:url('assets/images/sleep.jpg')">
+      <div class="shadow"></div>
+      <div class="label">
+        <div class="icon"><i class="bx bx-dna"></i></div>
+        <div class="info">
+          <div class="main">Sleep Tracking</div>
+          <div class="sub">Track your sleep pattern and provides better insights</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="option" style="background-image:url('assets/images/heartrate.jpg')">
+      <div class="shadow"></div>
+      <div class="label">
+        <div class="icon"><i class="bx bx-heart"></i></div>
+        <div class="info">
+          <div class="main">Heart Health</div>
+          <div class="sub">HRV, Calories, Steps & Activity insights</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="option" style="background-image:url('assets/images/gallery3.jpg')">
+      <div class="shadow"></div>
+      <div class="label">
+        <div class="icon"><i class="bx bx-timer"></i></div>
+        <div class="info">
+          <div class="main">Water Resistant</div>
+          <div class="sub">The HuX Smart Ring features an IP68 water resistance rating, ensuring it remains protected against dust and can withstand full submersion in water up to 1.5 meters for 30 minutes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="option" style="background-image:url('assets/images/gallery4.gif')">
+      <div class="shadow"></div>
+      <div class="label">
+        <div class="icon"><i class="bx bx-chip"></i></div>
+        <div class="info">
+          <div class="main">Precision</div>
+          <div class="sub">Engineered with nano-sensors</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 5 -->
+    <div class="option" style="background-image:url('assets/images/gallery5.png')">
+      <div class="shadow"></div>
+      <div class="label">
+        <div class="icon"><i class="bx bx-planet"></i></div>
+        <div class="info">
+          <div class="main">Design</div>
+          <div class="sub">Minimal. Futuristic. HUX.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STYLE -->
+<style>
+  #hux-gallery {
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Container */
+  .options {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 480px; /* +15% taller */
+    border-radius: 32px;
+  }
+
+  /* Each Card */
+  .option {
+    position: relative;
+    flex-grow: 1;
+    margin: 12px;
+    border-radius: 28px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: all 0.8s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+    overflow: hidden;
+  }
+
+  /* Card Shadow Overlay */
+  .option .shadow {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 160px;
+    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 95%);
+    transition: 0.5s;
+  }
+
+  /* Card Label */
+  .option .label {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    transition: 0.5s;
+  }
+
+  .option .icon {
+    width: 46px;
+    height: 46px;
+    background: white;
+    color: #111827;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    font-size: 1.3rem;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+
+  .option .info {
+    color: #ffffff;
+    margin-left: 12px;
+  }
+
+  .option .info .main {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  .option .info .sub {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+  }
+
+  /* Inactive State */
+  .option:not(.active) {
+    flex-grow: 1;
+    filter: brightness(80%) contrast(95%) saturate(0.9);
+    transition: all 0.8s ease;
+  }
+
+  /* Active State */
+  .option.active {
+    flex-grow: 10;
+    border-radius: 42px;
+    filter: brightness(105%) contrast(110%);
+    transform: scale(1.03);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .options { flex-direction: column; height: auto; }
+    .option { height: 250px; margin: 6px 0; }
+  }
+</style>
+
+<!-- SCRIPT -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(".option").click(function() {
+    $(".option").removeClass("active");
+    $(this).addClass("active");
+  });
+</script>
+
+<section class="section-health">
+  <h1>HUX <span>Vitals</span> Dashboard</h1>
+  <div class="card-row">
+
+    <!-- Steps -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('assets/images/steps.png');">
+        <h2>Steps</h2>
+        <div class="value">53,352</div>
+        <p>Weekly Total</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">Step Trend</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,140 Q40,110 70,120 T140,80 T210,130 T280,60"></path>
+          </svg>
+          <div class="numbers"><span>8k</span><span>3k</span><span>6k</span><span>4k</span><span>10k</span><span>9k</span><span>13k</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+    <!-- Sleep -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('assets/images/sleep.png');">
+        <h2>Sleep</h2>
+        <div class="value">7.3 h</div>
+        <p>Avg Duration</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">Sleep Pattern</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,120 Q40,140 70,100 T140,130 T210,80 T280,110"></path>
+          </svg>
+          <div class="numbers"><span>6h</span><span>7h</span><span>8h</span><span>6h</span><span>7.5h</span><span>7h</span><span>8h</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+    <!-- Stress -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1000');">
+        <h2>Stress</h2>
+        <div class="value">Moderate</div>
+        <p>Last 7 Days</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">Stress Levels</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,90 Q40,70 70,100 T140,80 T210,120 T280,90"></path>
+          </svg>
+          <div class="numbers"><span>3</span><span>4</span><span>5</span><span>4</span><span>6</span><span>5</span><span>3</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+    <!-- HRV -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('assets/images/hrv.png');">
+        <h2>HRV</h2>
+        <div class="value">65 ms</div>
+        <p>Heart Variability</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">HRV Trends</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,110 Q40,90 70,120 T140,100 T210,130 T280,90"></path>
+          </svg>
+          <div class="numbers"><span>55</span><span>62</span><span>58</span><span>70</span><span>68</span><span>64</span><span>65</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+    <!-- SpO2 -->
+    <div class="health-card">
+      <div class="card-front" style="background-image:url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1000');">
+        <h2>SpO₂</h2>
+        <div class="value">98%</div>
+        <p>Oxygen Level</p>
+      </div>
+      <div class="card-back">
+        <h3 style="font-size:14px;margin-bottom:8px;">Oxygen Levels</h3>
+        <div class="chart">
+          <svg viewBox="0 0 280 180">
+            <path d="M0,120 Q40,100 70,120 T140,100 T210,110 T280,105"></path>
+          </svg>
+          <div class="numbers"><span>96</span><span>97</span><span>98</span><span>97</span><span>99</span><span>98</span><span>98</span></div>
+        </div>
+        <div class="days"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.health-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    card.classList.toggle('active');
+  });
+});
+</script>
+
+
+
+<!-- HUX Footer / Info Section -->
+<section id="hux-footer" class="relative py-16 flex flex-col items-center justify-center bg-white">
+
+  <!-- Frosted Glass Container -->
+  <div class="frosted-glass w-11/12 max-w-7xl rounded-3xl p-10 shadow-2xl relative z-10">
+    
+    <!-- Heading -->
+    <div class="text-center mb-10">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white">
+        Join us on our mission to <span class="text-blue-400">Redefine Wellness</span>
+      </h2>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-8 text-center md:text-left text-gray-200">
+      
+      <!-- Logo & Certifications -->
+      <div>
+        <div class="flex items-center justify-center md:justify-start mb-6">
+          <img src="assets/images/logo.png" alt="HUX Logo" class="h-14 drop-shadow-[0_0_15px_white]">
+        </div>
+        <p class="font-semibold mb-2">Certifications</p>
+        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+          <span class="badge">ISO</span>
+          <span class="badge">CE</span>
+          <span class="badge">RoHS</span>
+          <span class="badge">BIS</span>
+        </div>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <p class="font-semibold mb-3">Company</p>
+        <ul class="space-y-2">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Help & Support</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <p class="font-semibold mb-3">Services</p>
+        <ul class="space-y-2">
+          <li><a href="#">Wellness Coaching</a></li>
+          <li><a href="#">Corporate Wellness</a></li>
+          <li><a href="#">AI Health Tracking</a></li>
+          <li><a href="#">Smart Integrations</a></li>
+        </ul>
+      </div>
+
+      <!-- Tools -->
+      <div>
+        <p class="font-semibold mb-3">Tools</p>
+        <ul class="space-y-2">
+          <li><a href="#">Sleep Analyzer</a></li>
+          <li><a href="#">Body Metrics</a></li>
+          <li><a href="#">Calorie Tracker</a></li>
+          <li><a href="#">Wellness Index</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <p class="font-semibold mb-3">Legal</p>
+        <ul class="space-y-2">
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Warranty Policy</a></li>
+          <li><a href="#">Returns & Refunds</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div class="mt-12">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>About HUX Smart Ring</span>
+          <i class="bx bx-chevron-down"></i>
+        </button>
+        <div class="faq-answer">HUX-NEXus Smart Ring is designed for next-gen health, fitness, and lifestyle tracking with premium design and advanced AI-driven insights.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Popular Searches</span>
+          <i class="bx bx-chevron-down"></i>
+        </button>
+        <div class="faq-answer">Top searches include: HUX smart ring for health, stylish titanium rings, waterproof fitness rings, and AI-powered wearables.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Best fashionable smart ring online</span>
+          <i class="bx bx-chevron-down"></i>
+        </button>
+        <div class="faq-answer">The HUX-NEXus stands out as the most fashionable smart ring, blending minimalism with futuristic design aesthetics.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Shop online with convenience</span>
+          <i class="bx bx-chevron-down"></i>
+        </button>
+        <div class="faq-answer">You can order directly from the official HUX store with secure payments, express shipping, and warranty support.</div>
+      </div>
+    </div>
+
+    <!-- Social Icons -->
+    <div class="flex justify-center gap-6 mt-10">
+      <a href="#"><i class="bx bxl-facebook text-2xl text-white hover:text-blue-400"></i></a>
+      <a href="#"><i class="bx bxl-twitter text-2xl text-white hover:text-sky-400"></i></a>
+      <a href="#"><i class="bx bxl-instagram text-2xl text-white hover:text-pink-500"></i></a>
+    </div>
+
+    <!-- Footer Note -->
+    <p class="text-center text-gray-400 mt-6 text-sm">© 2024 HUX Technologies. All Rights Reserved.</p>
+  </div>
+
+
+
+  <style>
+    /* Frosted Glass */
+    .frosted-glass {
+      background: linear-gradient(145deg, rgba(10, 20, 40, 0.8), rgba(0, 50, 100, 0.6));
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .floating-ring {
+      width: 220px;
+      filter: drop-shadow(0px 30px 35px rgba(0, 0, 0, 0.6));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+
+    /* FAQ Accordion */
+    .faq-item {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding: 14px 0;
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      color: #ddd;
+      font-size: 0.95rem;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding-top: 8px;
+    }
+    .faq-item i {
+      transition: transform 0.3s;
+    }
+    .faq-item.active i {
+      transform: rotate(180deg);
+    }
+  </style>
+
+  <script>
+    // FAQ Toggle
+    document.querySelectorAll(".faq-question").forEach(button => {
+      button.addEventListener("click", () => {
+        const faqItem = button.parentElement;
+        faqItem.classList.toggle("active");
+      });
+    });
+  </script>
+</section>
+<style>
+/* --- Universal Frosted Glass Design --- */
+.icon-glass {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.08),
+              0 4px 20px rgba(0,0,0,0.25);
+}
+
+/* Hover effect - lift and glow */
+.icon-glass:hover {
+  transform: scale(1.12) translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255,255,255,0.35),
+              inset 0 0 20px rgba(255,255,255,0.15);
+}
+
+/* 💖 HEART HEALTH */
+.icon-glass.heart {
+  color: #ff3366;
+  box-shadow: 0 4px 25px rgba(255, 51, 102, 0.4);
+  animation: heartPulse 3s infinite ease-in-out;
+}
+@keyframes heartPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 51, 102, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(255, 51, 102, 0.7); }
+}
+
+/* 🌙 SLEEP TRACKING */
+.icon-glass.sleep {
+  color: #00d4ff;
+  box-shadow: 0 4px 25px rgba(0, 212, 255, 0.4);
+  animation: sleepGlow 4s infinite ease-in-out;
+}
+@keyframes sleepGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.7); }
+}
+
+/* 🔋 BATTERY LIFE */
+.icon-glass.battery {
+  color: #21ff6f;
+  box-shadow: 0 4px 25px rgba(33, 255, 111, 0.4);
+  animation: batteryGlow 5s infinite ease-in-out;
+}
+@keyframes batteryGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(33, 255, 111, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(33, 255, 111, 0.7); }
+}
+
+/* 💧 WATER RESISTANT */
+.icon-glass.water {
+  color: #0099ff;
+  box-shadow: 0 4px 25px rgba(0, 153, 255, 0.4);
+  animation: waterWave 6s infinite ease-in-out;
+}
+@keyframes waterWave {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* ⚙️ LIFESTYLE CONNECTIVITY */
+.icon-glass.lifestyle {
+  color: #ffae00;
+  box-shadow: 0 4px 25px rgba(255, 174, 0, 0.4);
+  animation: lifestyleGlow 4s infinite ease-in-out;
+}
+@keyframes lifestyleGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 174, 0, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(255, 174, 0, 0.7); }
+}
+
+/* 🧭 Remove horizontal scrollbar globally */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* hides horizontal scrolling */
+}
+</style>
+
+<script>
+  // Show popup after short delay when page loads
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preorderPopup').classList.add('active');
+    }, 1200);
+  });
+
+  // Close popup when X clicked
+  document.getElementById('closePopup').addEventListener('click', () => {
+    document.getElementById('preorderPopup').classList.remove('active');
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const addToCartButtons = document.querySelectorAll(".addToCart");
+    const cartCount = document.getElementById("cartCount");
+    const cartIcon = document.querySelector(".cart-icon");
+
+    // Load existing cart count from localStorage
+    let count = parseInt(localStorage.getItem("cartCount")) || 0;
+    cartCount.textContent = count;
+
+    // Add to Cart button click
+    addToCartButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        count++;
+        cartCount.textContent = count;
+        localStorage.setItem("cartCount", count);
+        
+        // Redirect to huxorder.html
+        window.location.href = "huxorder.html";
+      });
+    });
+
+    // Redirect when clicking cart icon
+    if (cartIcon) {
+      cartIcon.addEventListener("click", () => {
+        window.location.href = "huxorder.html";
+      });
+    }
+  });
+
+localStorage.removeItem("cartCount");
+
+
+</script>
+
+<style>
+/* ===========================
+   🌐 MOBILE OPTIMIZATION PATCH
+   For screens ≤ 768px
+   =========================== */
+@media (max-width: 768px) {
+
+  /* --- NAVBAR FIXES --- */
+  header nav {
+    grid-template-columns: 1fr auto 1fr !important;
+    gap: 6px !important;
+  }
+  header nav div.flex.gap-8 {
+    gap: 6px !important;
+    font-size: 13px !important;
+  }
+  header nav img {
+    height: 30px !important;
+  }
+  /* Hide links and show menu for small devices */
+  .mobile-menu-toggle {
+    display: block !important;
+  }
+  .nav-links {
+    display: none;
+  }
+
+  /* --- HERO SECTION --- */
+  .hero {
+    min-height: 100vh !important;
+    margin: 2vh auto !important;
+    border-radius: 25px !important;
+  }
+  .hero video.hero-bg {
+    object-position: center !important;
+  }
+  .text-content h1 {
+    font-size: 1.8rem !important;
+    line-height: 1.3;
+  }
+  .text-content p {
+    font-size: 1rem !important;
+  }
+
+  /* --- FEATURES SECTION --- */
+  #features h2 {
+    font-size: 2rem !important;
+  }
+  #features .grid {
+    gap: 1.5rem !important;
+  }
+  #features p.text-sm {
+    font-size: 1rem !important;
+  }
+
+  /* --- HUX-NEXUS VIDEO SECTION --- */
+  #nexus {
+    min-height: 80vh !important;
+  }
+  #nexus video {
+    height: 100% !important;
+    object-position: center;
+  }
+
+  /* --- SLIDING SECTION --- */
+  #hux-sliding-section .slide {
+    height: auto !important;
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 50px 20px !important;
+  }
+  #hux-sliding-section .stats-cluster {
+    justify-content: center !important;
+  }
+
+  /* --- ABOUT SECTION --- */
+  #about {
+    padding: 2rem 1rem !important;
+  }
+  #about h2 {
+    font-size: 2rem !important;
+  }
+
+  /* --- SPECS SECTION --- */
+  #hux-specs .grid {
+    text-align: center !important;
+  }
+  #hux-specs p {
+    word-wrap: break-word !important;
+  }
+
+  /* --- ORDER SECTION --- */
+  .product-card {
+    width: 90% !important;
+    height: auto !important;
+    margin: 0 auto 20px !important;
+    padding: 20px !important;
+  }
+  .product-card img {
+    width: 150px !important;
+  }
+  .price_letter {
+    font-size: 0.8rem !important;
+  }
+
+  /* --- OVERLAPPING CARDS SECTION --- */
+  .card-deck {
+    flex-direction: column !important;
+    position: static !important;
+    gap: 25px !important;
+    height: auto !important;
+  }
+  .card {
+    position: static !important;
+    transform: none !important;
+    width: 90% !important;
+    margin: 0 auto !important;
+  }
+
+  /* --- REVIEW SECTION --- */
+  .review-card {
+    flex: 0 0 85% !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* --- FOOTER SECTION --- */
+  #hux-footer {
+    padding: 40px 15px !important;
+  }
+  #hux-footer .grid {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+  }
+  #hux-footer .faq-question {
+    font-size: 1rem !important;
+  }
+  #hux-footer h2 {
+    font-size: 1.8rem !important;
+  }
+  .frosted-glass {
+    background: linear-gradient(145deg, rgba(10, 20, 40, 0.9), rgba(0, 50, 100, 0.8)) !important;
+  }
+
+  /* --- TYPOGRAPHY SCALING --- */
+  h1, h2, h3, h4 {
+    word-break: break-word !important;
+  }
+  p, span {
+    font-size: 0.95rem !important;
+  }
+}
+</style>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<style>/* ===== GLOBAL TYPOGRAPHY SYSTEM ===== */
+
+/* Base font reset */
+* {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.3px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Futuristic heading style */
+h1, h2, h3, h4, h5, h6,
+.hero h1, .order-heading, .section-reviews h2,
+.text-content h1, .content h1,
+.hux-header h2, #hux-specs h4 {
+  font-family: 'Orbitron', sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Optional - tweak visual hierarchy */
+h1 { font-weight: 900; }
+h2, h3 { font-weight: 700; }
+h4, h5, h6 { font-weight: 600; }
+
+/* Body text stays clean and legible */
+p, li, span, a, button, input, textarea {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400;
+  line-height: 1.6;
+}
+</style>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        /* Fallback gradient if Tailwind fails */
+        background: linear-gradient(to bottom right, #ffffff, #f0f6ff, #e6f0fa);
+      }
+    </style>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(to bottom right, #ffffff, #f0f6ff, #e6f0fa);
+      }
+
+      /* Mobile-specific overrides */
+      @media (max-width: 900px) {
+        header nav {
+          grid-template-columns: 1fr auto 1fr !important;
+          gap: 10px;
+        }
+        header nav div.flex.gap-8 {
+          gap: 4px;
+          font-size: 14px;
+        }
+        header nav img {
+          height: 32px !important;
+        }
+        .content h1 {
+          font-size: 1.8rem !important;
+        }
+        .content p {
+          font-size: 1rem !important;
+        }
+        .stats-cluster {
+          grid-template-columns: 1fr !important;
+          gap: 12px !important;
+        }
+        .stat-card {
+          height: 120px !important;
+          font-size: 1rem !important;
+        }
+        .order-heading {
+          font-size: 2rem !important;
+          letter-spacing: 1px !important;
+        }
+        .product-card {
+          max-width: 100% !important;
+          height: auto !important;
+        }
+        .product-card img {
+          max-width: 150px !important;
+        }
+        .grid-cols-2,
+        .grid-cols-3,
+        .grid-cols-4,
+        .md\\:grid-cols-2,
+        .md\\:grid-cols-3,
+        .lg\\:grid-cols-4 {
+          grid-template-columns: 1fr !important;
+        }
+        section {
+          padding: 2rem 1rem !important;
+        }
+        .floating-ring {
+          width: 150px !important;
+        }
+        .faq-question {
+          font-size: 1rem !important;
+        }
+      }
+    </style>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<!-- (💡 All your other existing styles, scripts, hero section, sections, etc. remain EXACTLY the same) -->
+
+<!-- 🩵🩵🩵 FIX SECTION: Remove gap between navbar and hero 🩵🩵🩵 -->
+<style>
+  main {
+    padding-top: 0.5 !important;
+    margin-top: 0 !important;
+  }
+  .hero-wrap {
+    margin-top: 0 !important;
+  }
+</style>
+
+  </body>
+</html>
