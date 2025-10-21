@@ -18,7 +18,7 @@ HUX_APP/
 ├── thankyou.html       # Order confirmation
 ├── app.html           # App showcase section
 ├── responsive.css     # Mobile optimizations
-├── Assets/images/     # All images and media
+├── assets/images/     # All images and media
 └── .github/workflows/ # GitHub Pages deployment
 ```
 
