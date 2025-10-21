@@ -268,7 +268,8 @@
   </header>
 
   <!-- MAIN -->
-  <main class="pt-32 pb-16">
+  <main class="pt-32 pb-4 md:pb-8">
+
     <div class="max-w-6xl mx-auto px-6">
       <div class="flex gap-8 items-start layout">
 
@@ -394,8 +395,6 @@
               <button id="checkoutBtn" class="bg-white/10 px-5 py-2 rounded-full border border-white/60">Checkout</button>
             </div>
           </div>
-        </aside>
-
       </div>
     </div>
   </main>
@@ -595,6 +594,158 @@
     toggleSizeGuide.addEventListener('keyup', e => { if(e.key === 'Enter') toggleSizeGuide.click(); });
 
   </script>
+
+<!-- Features Galore Section -->
+<section id="features" class="py-20 bg-neutral-100">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-5xl font-extrabold mb-12 tracking-wide">Features Galore</h2>
+    <p class="text-gray-600 mb-16">Experience next-gen health & lifestyle features with HUX Smart Ring.</p>
+
+    <div class="relative flex items-center justify-center">
+      <!-- Smart Ring Image -->
+      <div class="relative w-[320px] h-[320px] mx-auto">
+        <img id="ringImage" src="assets/images/ring-black.png" 
+             class="w-full h-full object-contain transition-all duration-300 ease-in-out filter drop-shadow-2xl" 
+             alt="HUX Ring">
+      </div>
+
+      <!-- Features Left -->
+      <div class="absolute left-0 top-1/2 -translate-y-1/2 space-y-16 text-left">
+        <div class="feature-item" data-color="black">
+          <h4 class="feature-title px-4 py-2 rounded-full font-semibold inline-block">Activity Tracking</h4>
+          <p class="text-gray-500 text-sm">Track every step, calorie & workout seamlessly.</p>
+        </div>
+        <div class="feature-item" data-color="silver">
+          <h4 class="feature-title px-4 py-2 rounded-full font-semibold inline-block">Sleep Monitoring</h4>
+          <p class="text-gray-500 text-sm">Analyze sleep cycles with AI-driven insights.</p>
+        </div>
+        <div class="feature-item" data-color="rose">
+          <h4 class="feature-title px-4 py-2 rounded-full font-semibold inline-block">Fitness Metrics</h4>
+          <p class="text-gray-500 text-sm">Stay on top of your vitals with precision tracking.</p>
+        </div>
+      </div>
+
+      <!-- Features Right -->
+      <div class="absolute right-0 top-1/2 -translate-y-1/2 space-y-16 text-right">
+        <div class="feature-item" data-color="gold">
+          <h4 class="feature-title px-4 py-2 rounded-full font-semibold inline-block">Heart Rate Monitoring</h4>
+          <p class="text-gray-500 text-sm">Advanced heart-rate accuracy with real-time alerts.</p>
+        </div>
+        <div class="feature-item" data-color="black">
+          <h4 class="feature-title px-4 py-2 rounded-full font-semibold inline-block">Stress Monitoring</h4>
+          <p class="text-gray-500 text-sm">AI-powered stress analysis & relaxation guidance.</p>
+        </div>
+        <div class="feature-item" data-color="silver">
+          <h4 class="feature-title px-4 py-2 rounded-full font-semibold inline-block">Hydration Reminders</h4>
+          <p class="text-gray-500 text-sm">Smart reminders to keep your body hydrated.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Ring Color Previews */
+  .feature-item { cursor: pointer; transition: all 0.3s ease; }
+  .feature-title { background: #222; color: #fff; transition: all 0.2s ease-in-out; }
+
+  /* Dynamic Colors */
+  .feature-item[data-color="black"] .feature-title:hover { background: #000; color: #fff; }
+  .feature-item[data-color="silver"] .feature-title:hover { background: #c0c0c0; color: #111; }
+  .feature-item[data-color="rose"] .feature-title:hover { background: #e6b0aa; color: #fff; }
+  .feature-item[data-color="gold"] .feature-title:hover { background: #d4af37; color: #111; }
+
+  /* Hover Glow */
+  #ringImage { filter: drop-shadow(0px 0px 25px rgba(0,0,0,0.4)); }
+  .ring-black { filter: drop-shadow(0px 0px 30px rgba(0,0,0,0.7)); }
+  .ring-silver { filter: drop-shadow(0px 0px 30px rgba(180,180,180,0.8)); }
+  .ring-rose { filter: drop-shadow(0px 0px 30px rgba(230,176,170,0.9)); }
+  .ring-gold { filter: drop-shadow(0px 0px 30px rgba(212,175,55,0.9)); }
+</style>
+
+<script>
+  const ringImage = document.getElementById("ringImage");
+
+  // Preload ring images
+  const rings = {
+    black: "assets/images/ring-black.png",
+    silver: "assets/images/ring-silver.png",
+    rose: "assets/images/ring-rose.png",
+    gold: "assets/images/ring-gold.png"
+  };
+
+  document.querySelectorAll(".feature-item").forEach(item => {
+    item.addEventListener("mouseenter", () => {
+      const color = item.getAttribute("data-color");
+      ringImage.src = rings[color];
+      ringImage.className = `w-full h-full object-contain transition-all duration-200 ease-in-out ring-${color}`;
+    });
+  });
+</script>
+
+<script>
+  // Product Images for Each Color
+  const productImages = {
+    black: "assets/images/ring-black.png",
+    silver: "assets/images/ring-silver.png",
+    rose: "assets/images/ring-rose.png",
+    gold: "assets/images/ring-gold.png"
+  };
+
+  // Change product image when color is selected
+  document.querySelectorAll(".color-circle").forEach(c => {
+    c.addEventListener("click", () => {
+      document.querySelectorAll(".color-circle").forEach(c => c.classList.remove("active"));
+      c.classList.add("active");
+      const color = c.dataset.color;
+      document.getElementById("ring-image").src = productImages[color];
+    });
+  });
+
+  // Toggle Checkout Popup
+  function toggleCheckout() {
+    document.getElementById("checkout").classList.toggle("active");
+  }
+
+  // Handle Add to Cart
+  document.getElementById("add-to-cart").addEventListener("click", () => {
+    const size = document.querySelector("input[name='size']:checked");
+    if (!size) {
+      alert("⚠ Please select a ring size before adding to cart!");
+      return;
+    }
+
+    const qty = document.getElementById("quantity").value;
+    const total = qty * 25999;
+
+    document.getElementById("cart-details").innerHTML = `
+      <p><strong>HUX Smart Ring</strong></p>
+      <p>Size: ${size.value}</p>
+      <p>Quantity: ${qty}</p>
+      <p>Total: ₹${total.toLocaleString()}</p>
+    `;
+
+    toggleCheckout();
+  });
+
+  // Razorpay Integration (demo)
+  function payNow() {
+    var options = {
+      "key": "YOUR_RAZORPAY_KEY", 
+      "amount": 25999 * 100, 
+      "currency": "INR",
+      "name": "HUX Smart Ring",
+      "description": "Order Payment",
+      "handler": function (response){
+        alert("✅ Payment successful! ID: " + response.razorpay_payment_id);
+      },
+      "theme": { "color": "#007aff" }
+    };
+    var rzp = new Razorpay(options);
+    rzp.open();
+  }
+</script>
+
 
 <!-- HUX Footer / Info Section -->
 <section id="hux-footer" class="relative py-16 flex flex-col items-center justify-center bg-white">
